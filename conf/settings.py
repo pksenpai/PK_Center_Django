@@ -1,12 +1,18 @@
 from decouple import config
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 
+# Base Settings
 TIME_ZONE = config("TIME_ZONE", default='Asia/Tehran')
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 DEBUG = config('DEBUG', default=True, cast=bool)
+
 # 'django-insecure-mj2_7hn=fi&%#7hg7r2p(k@lm%ugx_-s70bj#4$sbq7ywnr235'
 SECRET_KEY = config("SECRET_KEY", default="development-secret-key") 
+
 ALLOWED_HOSTS = \
     ['*'] if DEBUG else config(
             'ALLOWED_HOSTS',
@@ -41,6 +47,11 @@ INSTALLED_APPS = DJANGO_APPS + MY_APPS + EXTRA_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    
+    # */translation/*
+    'django.middleware.locale.LocaleMiddleware',
+    # */translation/*
+    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -81,13 +92,20 @@ LANGUAGE_CODE = 'en-us'
 USE_I18N = True
 USE_TZ = True
 
+# Translation
+LANGUAGES = [
+    ('en', _('English')),
+    ('fa', _('Persian')),
+    ('jp', _('Japanese')),
+]
+
+# Static & Media
 STATIC_URL = 'static/'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # mode handling
