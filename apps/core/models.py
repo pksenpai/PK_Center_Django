@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth import get_user_model; User = get_user_model()
 from .managers import LogicalManager
 
 from django.core.exceptions import ValidationError
@@ -25,7 +24,8 @@ class TimeStampBaseModel(models.Model):
 
     class Meta:
         abstract = True
-        
+
+
 class LogicalBaseModel(models.Model):
     is_active = models.BooleanField(
         default      = True,
@@ -63,7 +63,7 @@ class LogicalBaseModel(models.Model):
 class StatusMixin:
     @property
     def status(self) -> bool:
-        return self.is_active and not self.is_deleted  # noqa
+        return self.is_active and not self.is_deleted
 
 
 class ProfileImageBaseModel(LogicalBaseModel, StatusMixin):
@@ -123,7 +123,7 @@ class Comment(LogicalBaseModel, StatusMixin, TimeStampBaseModel):
     
     """\_____________[RELATIONS]_____________/"""
     author = models.ForeignKey(
-        to           = User,
+        to           = "users.User",
         on_delete    = models.CASCADE,
         verbose_name = _("Author"),
     )
@@ -183,7 +183,7 @@ class Report(TimeStampBaseModel):
 
     """\_____________[RELATIONS]_____________/"""
     reporter = models.ForeignKey(
-        to           = User,
+        to           = "users.User",
         on_delete    = models.CASCADE,
         verbose_name = _("Reporter"),
     )
