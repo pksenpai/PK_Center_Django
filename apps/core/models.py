@@ -1,4 +1,5 @@
 from django.db import models
+from core.managers import LogicalManager
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
@@ -21,35 +22,6 @@ class TimeStampBaseModel(models.Model):
     class Meta:
         abstract = True
         
-
-class LogicalQuerySet(models.QuerySet):
-    def delete(self):
-        """
-        - override delete method for querysets(multiple objs)
-        - is_deleted objects is hide from users
-        """
-        return super().update(is_deleted=True)
-
-    def hard_delete(self): # danger!!!
-        """!!! delete all of that objs from database forever !!!"""
-        return super().delete()
-
-
-class LogicalManager(models.Manager):
-    
-    def get_queryset(self):
-        """ only show objects that is unhide by default! """
-        return LogicalQuerySet(self.model).filter(is_deleted=False, is_active=True)
-
-    def archive(self):
-        """ show all objects by this method | hide & unhide! no diff! """
-        return LogicalQuerySet(self.model)
-
-    def deleted(self):
-        """ only show objects that is hide by this method! """
-        return LogicalQuerySet(self.model).filter(is_deleted=True)
-
-
 class LogicalBaseModel(models.Model):
     is_active = models.BooleanField(
         default      = True,
@@ -90,7 +62,7 @@ class StatusMixin:
         return self.is_active and not self.is_deleted  # noqa
 
 
-class ProfileImage(LogicalBaseModel, StatusMixin):
+class ProfileImageBaseModel(LogicalBaseModel, StatusMixin):
     """ low size images for User & Seller profiles """
     src = models.ImageField(upload_to='images/profile/')
     alt = models.CharField(max_length=255)
@@ -106,7 +78,7 @@ class ProfileImage(LogicalBaseModel, StatusMixin):
                 raise ValidationError({_("image"): _("The image must be square :(")})
 
 
-class ItemImage(LogicalBaseModel, StatusMixin):
+class ItemImageBaseModel(LogicalBaseModel, StatusMixin):
     """ high size images for Item & Post media """
     src = models.ImageField(upload_to='images/item/')
     alt = models.CharField(max_length=255)
