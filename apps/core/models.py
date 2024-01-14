@@ -1,5 +1,8 @@
 from django.db import models
-from core.managers import LogicalManager
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from .managers import LogicalManager
+
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
