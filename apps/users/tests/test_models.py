@@ -1,5 +1,5 @@
 from django.test import TestCase
-from core.models import User, Profile, Address
+from apps.users.models import User, Profile, Address
 
 from django.urls import reverse
 from django.db import IntegrityError
