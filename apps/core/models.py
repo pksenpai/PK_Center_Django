@@ -169,12 +169,12 @@ class OrderedByOldestComment(Comment):
     
 class Report(TimeStampBaseModel):
     class ReaportChoices(models.TextChoices):
-        INAPPROPRIATE_CONTENT = "IC", _("Inappropriate Content")
-        INTELLECTUAL_PROPERTY = "IP", _("used my Intellectual Property without authorization")
-        MATERIAL_PROPERTY     = "MP", _("used my Material Property without authorization")
-        ANNOYING_CONTENT      = "AC", _("Annoying Content")
-        POSTING_SPAM          = "PS", _("Posting Spam")
-        PRETENDING            = "PS", _("Pretending to be Someone else")
+        INAPPROPRIATE_CONTENT = "IC", _("Inappropriate content")
+        INTELLECTUAL_PROPERTY = "IP", _("Used my intellectual property without authorization")
+        MATERIAL_PROPERTY     = "MP", _("Used my material property without authorization")
+        ANNOYING_CONTENT      = "AC", _("Annoying content")
+        POSTING_SPAM          = "PS", _("Posting spam")
+        PRETENDING            = "PE", _("Pretending to be someone else")
     
     """\_______________[MAIN]_______________/"""
     reason      = models.CharField(choices=ReaportChoices, verbose_name=_("Reason"),)
