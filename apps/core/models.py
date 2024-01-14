@@ -177,7 +177,7 @@ class Report(TimeStampBaseModel):
         PRETENDING            = "PE", _("Pretending to be someone else")
     
     """\_______________[MAIN]_______________/"""
-    reason      = models.CharField(choices=ReaportChoices, verbose_name=_("Reason"),)
+    reason      = models.CharField(max_length=3, choices=ReaportChoices, verbose_name=_("Reason"),)
     description = models.CharField(max_length=350, blank=True, null=True, verbose_name=_("Description"),)
     approved    = models.BooleanField(default=False, verbose_name=_("Approved"),)
 
