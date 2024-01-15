@@ -18,8 +18,12 @@ class SellerTests(TestCase):
         self.user3 = User.objects.get(username="mmmmmmmmm123", is_seller=True)
         
         self.user4 = User.objects.create(
-                username = 'test',
-                password = 'abc123test'
+                username = 'test1',
+                password = 'abc123test',
+            )
+        self.user5 = User.objects.create(
+                username = 'test2',
+                password = 'abc123testds',
             )
         
         """\___________________[SELLER]___________________/"""
@@ -75,8 +79,12 @@ class SellerTests(TestCase):
     def test_unique_name(self):
         with self.assertRaises(IntegrityError):
             Seller.objects.create(
-                User = self.user4,
-                name = "Masazone Shop",
+                user = self.user4,
+                name = "test",
+            )
+            Seller.objects.create(
+                user = self.user5,
+                name = "test",
             )
 
     def test_unique_rank(self):
