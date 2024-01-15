@@ -82,24 +82,24 @@ class UserTests(TestCase):
     def test_has_username(self):
         self.assertEqual(self.user_customer.username, "jj1912")
         self.assertEqual(self.user_seller.username, "masazone")
-        self.assertEqual(self.user_seller.username, "staff001")
+        self.assertEqual(self.user_staff.username, "staff001")
         
     def test_has_password(self):
         self.assertEqual(self.user_customer.password, "cleancode123")
         self.assertEqual(self.user_seller.password, "m123a123s123a123")
-        self.assertEqual(self.user_seller.password, "ssttaaffff001")
+        self.assertEqual(self.user_staff.password, "ssttaaffff001")
 
     """\________________[ROLE]________________/"""
     
     def test_is_staff(self):
         self.assertEqual(self.user_customer.is_staff, False)
         self.assertEqual(self.user_seller.is_staff, False)
-        self.assertEqual(self.user_seller.is_staff, True)
+        self.assertEqual(self.user_staff.is_staff, True)
         
     def test_is_seller(self):
         self.assertEqual(self.user_customer.is_seller, False)
         self.assertEqual(self.user_seller.is_seller, True)
-        self.assertEqual(self.user_seller.is_seller, False)
+        self.assertEqual(self.user_staff.is_seller, False)
 
     def test_is_customer(self):
         self.assertEqual(
