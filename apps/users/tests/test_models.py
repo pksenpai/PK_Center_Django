@@ -216,13 +216,13 @@ class ProfileTest(TestCase):
         self.profile_customer = Profile.objects.create(
             user = self.user_customer,
             name = "mamad gholi", # if no value for this field --> with a Custom Manager it takes automate value from get_full_name() of user!
-            dascription = "I love Books! i post some videos about books that i buyed here X3"
+            description = "I love Books! i post some videos about books that i buyed here X3"
         )
         
         self.profile_seller = Profile.objects.create(
             user = self.user_seller,
             name = "Masazone Shop", # it must be takes a value for sellers!
-            dascription = "We are a shop that sell best books around the world. Quality is more important to us than quantity!"
+            description = "We are a shop that sell best books around the world. Quality is more important to us than quantity!"
         )
         
         self.profile_customer.follows.add(self.profile_seller)
