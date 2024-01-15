@@ -203,13 +203,13 @@ class UserTests(TestCase):
         
         
 class ProfileTest(TestCase):
-    user_customer = User.objects.get(email="customer@test.test", is_seller=False)
-    user_seller = User.objects.get(email="info@masazone.test", is_seller=True)
+    
+    fixtures = ['users.json']
     
     def setUp(self):
         """\___________________[user]___________________/"""
-        self.user_customer = self.__class__.user_customer
-        self.user_seller =self.__class__.user_seller
+        self.user_customer = User.objects.get(email="customer@test.test", is_seller=False)
+        self.user_seller = User.objects.get(email="info@masazone.test", is_seller=True)
         
         """\___________________[PROFILE]___________________/"""
         
@@ -290,13 +290,13 @@ class ProfileTest(TestCase):
         
         
 class AddressTest(TestCase):
-    user_customer = User.objects.get(email="customer@test.test", is_seller=False)
-    user_seller = User.objects.get(email="info@masazone.test", is_seller=True)
     
+    fixtures = ['users.json']
+
     def setUp(self):
         """\___________________[user]___________________/"""
-        self.user_customer = self.__class__.user_customer
-        self.user_seller =self.__class__.user_seller
+        self.user_customer = User.objects.get(email="customer@test.test", is_seller=False)
+        self.user_seller = User.objects.get(email="info@masazone.test", is_seller=True)
         
         """\___________________[ADDRESS]___________________/"""
         
