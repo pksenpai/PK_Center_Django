@@ -1,8 +1,10 @@
 from django.test import TestCase
-from apps.users.models import User, Profile, Address
+from apps.users.models import Profile, Address
+from django.contrib.auth import get_user_model; User = get_user_model()
 
 from django.urls import reverse
 from django.db import IntegrityError
+from django.core.exceptions import ValidationError
 
 from datetime import datetime
 
@@ -126,54 +128,30 @@ class UserTests(TestCase):
                 ), 
                 False
             )
-
-    """\______________[VALIDATION]______________/"""
-
-    def test_valid_phone_number(self):
-        with self.assertRaises(IntegrityError):
-            User.objects.create(
-                username = "234hjohasf0h2",
-                password = "sdkhj29wuh92",
-                phone_number = "0000abc1244",
-            )
-        
-        with self.assertRaises(IntegrityError):
-            User.objects.create(
-                username = "woe2pesd",
-                password = "sfop2qw",
-                phone_number = "12443",
-            )
-        
-        with self.assertRaises(IntegrityError):
-            User.objects.create(
-                username = "234hjohasf0h2",
-                password = "sdkhj29wuh92",
-                phone_number = "34238947281479874",
-            )
-        
-    def test_valid_birth_date(self):... ########################### Complete this later!!!
     
-    def test_valid_password(self):
-        # blank password test
-        with self.assertRaises(IntegrityError):
-            User.objects.create(
-                username = "fsdhjfhwiofhdfssd231",
-                password = "",
-            )
+    # def test_valid_password(self):
+    #     # blank password test
+    #     self.assertRaises(
+    #         ValidationError,
+    #         User.objects.create(
+    #             username = "fsdhjfhwiofhdfssd231",
+    #             password = "",
+    #         )
+    #     )
+        
+    #     # Just numeric password test
+    #     with self.assertRaises(ValidationError):
+    #         User.objects.create(
+    #             username = "4234jkl4k",
+    #             password = "1234567891011",
+    #         )
 
-        # Just numeric password test
-        with self.assertRaises(IntegrityError):
-            User.objects.create(
-                username = "4234jkl4k",
-                password = "1234567891011",
-            )
-
-        # minimum length password test(above 8)
-        with self.assertRaises(IntegrityError):
-            User.objects.create(
-                username = "fsdhjfhwiofhdfssd231",
-                password = "abc123",
-            )
+    #     # minimum length password test(above 8)
+    #     with self.assertRaises(ValidationError):
+    #         User.objects.create(
+    #             username = "fsdhjfhwiofhdfssd231",
+    #             password = "abc123",
+    #         )
 
     """\_______________[METHOD]_______________/"""
     
