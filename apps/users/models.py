@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from apps.core.models import ProfileImageBaseModel, LogicalBaseModel, StatusMixin
 
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 from django.core.validators import RegexValidator
 
 
