@@ -1,5 +1,8 @@
 from django.db import models
-from core.managers import LogicalManager
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from .managers import LogicalManager
+
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
@@ -21,7 +24,8 @@ class TimeStampBaseModel(models.Model):
 
     class Meta:
         abstract = True
-        
+
+
 class LogicalBaseModel(models.Model):
     is_active = models.BooleanField(
         default      = True,
@@ -59,7 +63,7 @@ class LogicalBaseModel(models.Model):
 class StatusMixin:
     @property
     def status(self) -> bool:
-        return self.is_active and not self.is_deleted  # noqa
+        return self.is_active and not self.is_deleted
 
 
 class ProfileImageBaseModel(LogicalBaseModel, StatusMixin):
@@ -119,7 +123,7 @@ class Comment(LogicalBaseModel, StatusMixin, TimeStampBaseModel):
     
     """\_____________[RELATIONS]_____________/"""
     author = models.ForeignKey(
-        to           = "apps.users.models.User",
+        to           = "users.User",
         on_delete    = models.CASCADE,
         verbose_name = _("Author"),
     )
@@ -165,21 +169,21 @@ class OrderedByOldestComment(Comment):
     
 class Report(TimeStampBaseModel):
     class ReaportChoices(models.TextChoices):
-        INAPPROPRIATE_CONTENT = "IC", _("Inappropriate Content")
-        INTELLECTUAL_PROPERTY = "IP", _("used my Intellectual Property without authorization")
-        MATERIAL_PROPERTY     = "MP", _("used my Material Property without authorization")
-        ANNOYING_CONTENT      = "AC", _("Annoying Content")
-        POSTING_SPAM          = "PS", _("Posting Spam")
-        PRETENDING            = "PS", _("Pretending to be Someone else")
+        INAPPROPRIATE_CONTENT = "IC", _("Inappropriate content")
+        INTELLECTUAL_PROPERTY = "IP", _("Used my intellectual property without authorization")
+        MATERIAL_PROPERTY     = "MP", _("Used my material property without authorization")
+        ANNOYING_CONTENT      = "AC", _("Annoying content")
+        POSTING_SPAM          = "PS", _("Posting spam")
+        PRETENDING            = "PE", _("Pretending to be someone else")
     
     """\_______________[MAIN]_______________/"""
-    reason      = models.CharField(choices=ReaportChoices, verbose_name=_("Reason"),)
+    reason      = models.CharField(max_length=3, choices=ReaportChoices, verbose_name=_("Reason"),)
     description = models.CharField(max_length=350, blank=True, null=True, verbose_name=_("Description"),)
     approved    = models.BooleanField(default=False, verbose_name=_("Approved"),)
 
     """\_____________[RELATIONS]_____________/"""
     reporter = models.ForeignKey(
-        to           = "apps.users.models.User",
+        to           = "users.User",
         on_delete    = models.CASCADE,
         verbose_name = _("Reporter"),
     )

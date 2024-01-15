@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from core.models import ProfileImageBaseModel, LogicalBaseModel
+from apps.core.models import ProfileImageBaseModel, LogicalBaseModel, StatusMixin
 
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy as _
+from django.core.validators import RegexValidator
 
 
-class User(abstractuser):
+class User(AbstractUser):
     
     """\_______________[MAIN]_______________/"""
     
@@ -87,7 +88,7 @@ class Profile(ProfileImageBaseModel):
         return str(self.user)
     
 
-class Address(LogicalBaseModel):
+class Address(LogicalBaseModel, StatusMixin):
             
     """\_______________[MAIN]_______________/"""
             
@@ -97,9 +98,9 @@ class Address(LogicalBaseModel):
 
     """\_______________[RELATION]_______________/"""
 
-    user = models.Foreignkey(
+    user = models.ForeignKey(
             to           = User, 
-            on_deleted   = models.CASCADE,
+            on_delete    = models.CASCADE,
             related_name = 'address',
             verbose_name = _('User'),
         )

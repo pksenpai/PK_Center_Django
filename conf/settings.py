@@ -37,7 +37,7 @@ EXTRA_APPS = []
 
 INSTALLED_APPS = DJANGO_APPS + MY_APPS + EXTRA_APPS
 
-
+# Middleware's
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -87,8 +87,10 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Custom User
+AUTH_USER_MODEL = "users.User"
 
 # mode handling
 if DEBUG:

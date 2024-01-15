@@ -1,5 +1,5 @@
 from django.test import TestCase
-from core.models import User, Profile, Address
+from apps.users.models import User, Profile, Address
 
 from django.urls import reverse
 from django.db import IntegrityError
@@ -203,26 +203,26 @@ class UserTests(TestCase):
         
         
 class ProfileTest(TestCase):
-    user_customer = User.objects.get(email="customer@test.test", is_seller=False)
-    user_seller = User.objects.get(email="info@masazone.test", is_seller=True)
+    
+    fixtures = ['users.json']
     
     def setUp(self):
         """\___________________[user]___________________/"""
-        self.user_customer = self.__class__.user_customer
-        self.user_seller =self.__class__.user_seller
+        self.user_customer = User.objects.get(email="customer@test.test", is_seller=False)
+        self.user_seller = User.objects.get(email="info@masazone.test", is_seller=True)
         
         """\___________________[PROFILE]___________________/"""
         
         self.profile_customer = Profile.objects.create(
             user = self.user_customer,
             name = "mamad gholi", # if no value for this field --> with a Custom Manager it takes automate value from get_full_name() of user!
-            dascription = "I love Books! i post some videos about books that i buyed here X3"
+            description = "I love Books! i post some videos about books that i buyed here X3"
         )
         
         self.profile_seller = Profile.objects.create(
             user = self.user_seller,
             name = "Masazone Shop", # it must be takes a value for sellers!
-            dascription = "We are a shop that sell best books around the world. Quality is more important to us than quantity!"
+            description = "We are a shop that sell best books around the world. Quality is more important to us than quantity!"
         )
         
         self.profile_customer.follows.add(self.profile_seller)
@@ -290,13 +290,13 @@ class ProfileTest(TestCase):
         
         
 class AddressTest(TestCase):
-    user_customer = User.objects.get(email="customer@test.test", is_seller=False)
-    user_seller = User.objects.get(email="info@masazone.test", is_seller=True)
     
+    fixtures = ['users.json']
+
     def setUp(self):
         """\___________________[user]___________________/"""
-        self.user_customer = self.__class__.user_customer
-        self.user_seller =self.__class__.user_seller
+        self.user_customer = User.objects.get(email="customer@test.test", is_seller=False)
+        self.user_seller = User.objects.get(email="info@masazone.test", is_seller=True)
         
         """\___________________[ADDRESS]___________________/"""
         

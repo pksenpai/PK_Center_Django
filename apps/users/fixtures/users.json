@@ -1,0 +1,67 @@
+[  
+    {    
+        "model": "users.User",
+        "pk": 1,    
+        "fields": {      
+            "username": "sogol123",
+            "password": "321logoss",
+            "email": "sogi@customer.test"    
+        }  
+    },
+    {    
+        "model": "users.User",
+        "pk": 2,    
+        "fields": {      
+            "username": "S2arKhamBoY",
+            "password": "sfjfkj2343",
+            "email": "Ark@customer.test"    
+        }  
+    },
+    {    
+        "model": "users.User",
+        "pk": 3,    
+        "fields": {      
+            "username": "SoSShop",
+            "password": "a1b2c3d4e5",
+            "email": "info@sos.test",
+            "phone_number": "19124230384",
+            "is_seller": true   
+        }  
+    },
+    {    
+        "model": "users.User",
+        "pk": 4,    
+        "fields": {      
+            "username": "staff001",
+            "password": "ssttaaffff001",
+            "email": "staff001@pk.test",
+            "phone_number": "33034402277",
+            "first_name": "Joe",
+            "last_name": "Martin",
+            "is_staff": true  
+        }  
+    },
+    {    
+        "model": "users.User",
+        "pk": 5,    
+        "fields": {      
+            "username": "masazone",
+            "password": "m123a123s123a123",
+            "email": "info@masazone.test" ,
+            "phone_number": "11122233344",
+            "is_seller": true
+        }  
+    },
+    {    
+        "model": "users.User",
+        "pk": 6,    
+        "fields": {      
+            "username": "jj1912",
+            "password": "cleancode123",
+            "email": "customer@test.test",
+            "phone_number": "33334445577",
+            "first_name": "Jenifer",
+            "last_name": "Jackson"  
+        }  
+    }
+]
