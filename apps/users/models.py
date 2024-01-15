@@ -81,7 +81,7 @@ class Profile(ProfileImageBaseModel):
     """\_______________[METHOD]_______________/"""
 
     def get_absolute_url(self):
-        return reverse("user_profile", args=[self.id])
+        return reverse("profile", args=[self.id])
 
     def __str__(self):
         return str(self.user)

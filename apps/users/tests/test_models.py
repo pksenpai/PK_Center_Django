@@ -246,13 +246,13 @@ class ProfileTest(TestCase):
     
     def test_get_absolute_url(self):
         customer_expected_url = reverse(
-            "user_profile",
+            "profile",
             kwargs={
                 "id": self.profile_customer.id
             }
         )
         seller_expected_url = reverse(
-            "user_profile",
+            "profile",
             kwargs={
                 "id": self.profile_seller.id
             }
