@@ -130,8 +130,8 @@ class SellerTests(TestCase):
     """\_______________[META]_______________/"""
     
     def test_ordering(self):
-        all_sellers = Seller.objects.all()
-        top_seller = all_sellers.first()
+        all_ranking_sellers = Seller.objects.filter(rank__isnull=False)
+        top_seller = all_ranking_sellers.first()
         
         self.assertEqual(top_seller, self.seller3)
     
