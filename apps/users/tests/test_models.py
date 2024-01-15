@@ -202,8 +202,6 @@ class ProfileTest(TestCase):
             name = "Masazone Shop", # it must be takes a value for sellers!
             description = "We are a shop that sell best books around the world. Quality is more important to us than quantity!"
         )
-        
-        self.profile_customer.follows.add(self.profile_seller)
     
     """\_______________[MANDATORY]_______________/"""
     
@@ -218,7 +216,11 @@ class ProfileTest(TestCase):
         self.assertEqual(self.profile_seller.user, self.user_seller)
 
     def test_current_follows(self):
-        self.assertIn(self.profile_seller, self.profile_customer.follows)
+        self.profile_customer.follows.add(self.profile_seller)
+        self.profile_seller.follows.add(self.profile_customer)
+        
+        self.assertTrue(self.profile_customer.follows.filter(id=self.profile_seller.id).exists())
+        self.assertTrue(self.profile_seller.follows.filter(id=self.profile_customer.id).exists())
     
     """\_______________[METHOD]_______________/"""
     
