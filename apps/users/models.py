@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from apps.core.models import ProfileImageBaseModel, LogicalBaseModel, StatusMixin
 
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 from django.core.validators import RegexValidator
 
 
@@ -82,7 +83,7 @@ class Profile(ProfileImageBaseModel):
     """\_______________[METHOD]_______________/"""
 
     def get_absolute_url(self):
-        return reverse("profile", args=[self.id])
+        return reverse("users:profile", args=[self.id])
 
     def __str__(self):
         return str(self.user)
