@@ -97,8 +97,8 @@ class SellerTests(TestCase):
     """\________________[ROLE]________________/"""
         
     def test_is_seller(self):
-        self.assertEqual(self.seller1.is_seller, True)
-        self.assertEqual(self.seller2.is_seller, True)
+        self.assertEqual(self.seller1.user.is_seller, True)
+        self.assertEqual(self.seller2.user.is_seller, True)
 
     """\_______________[METHOD]_______________/"""
 
