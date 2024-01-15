@@ -1,5 +1,5 @@
 from django.test import TestCase
-from core.models import Category, Comment, Report
+from apps.core.models import Category, Comment, Report
 from datetime import datetime
 from django.db import IntegrityError
 
