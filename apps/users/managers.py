@@ -8,7 +8,7 @@ class ProfileManager(models.Manager):
     """
     def get_queryset(self):
         return super().get_queryset().select_related('user').filter(
-            user__is_seller=False,
-            user__is_staff=False,
-            user__is_superuser=False,
+            user__is_seller    = False,
+            user__is_staff     = False,
+            user__is_superuser = False,
         ) # so it is a Customer! :)
