@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from apps.core.models import ProfileImageBaseModel, LogicalBaseModel, StatusMixin
 
+from .managers import ProfileManager
+
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.core.validators import RegexValidator
@@ -85,6 +87,8 @@ class Profile(ProfileImageBaseModel):
             verbose_name = _('Follows'),
         )
 
+    objects = ProfileManager()
+    
     class Meta:
         verbose_name_plural = _("Profiles")
         verbose_name        = _("Profile")
