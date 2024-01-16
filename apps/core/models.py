@@ -146,13 +146,8 @@ class Comment(LogicalBaseModel, StatusMixin, TimeStampBaseModel):
         verbose_name_plural = _("Comments")
         verbose_name        = _("Comment")
         
-    @property
-    def author_full_name(self):
-        "Returns the author's full name."
-        return f"{self.author.first_name} {self.author.last_name}"
-    
     def __str__(self):
-        return str(self.author.get_full_name())
+        return str(self.author)
 
 
 class OrderedByNewestComment(Comment):
@@ -198,11 +193,6 @@ class Report(TimeStampBaseModel):
         verbose_name        = _("Report")
         ordering            =  ('-created_at',)
         
-    @property
-    def reporter_full_name(self):
-        "Returns the reporter's full name."
-        return f"{self.reporter.first_name} {self.reporter.last_name}"
-    
     def __str__(self):
-        return f"{str(self.reporter.get_full_name())} reported {str(self.content_object)}"
+        return str(self.reporter)
 
