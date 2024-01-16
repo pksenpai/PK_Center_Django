@@ -12,14 +12,14 @@ class User(AbstractUser):
     """\_______________[MAIN]_______________/"""
     
     email = models.EmailField(
-        blank        = True,
+        null         = True,
         unique       = True,
         verbose_name = _("Email Address")
     )
     
     phone_number = models.CharField(
         max_length   = 50,
-        blank        = True,
+        null         = True,
         unique       = True, 
         verbose_name = "Phone Number",
         validators   = [
@@ -55,6 +55,7 @@ class Profile(ProfileImageBaseModel):
 
     name = models.CharField(
         max_length   = 100,
+        unique       = True,
         verbose_name = _('Profile Name')
     )
     

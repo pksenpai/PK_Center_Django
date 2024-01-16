@@ -18,8 +18,12 @@ class SellerTests(TestCase):
         self.user3 = User.objects.get(username="mmmmmmmmm123", is_seller=True)
         
         self.user4 = User.objects.create(
-                username = 'test',
-                password = 'abc123test'
+                username = 'test1',
+                password = 'abc123test',
+            )
+        self.user5 = User.objects.create(
+                username = 'test2',
+                password = 'abc123testds',
             )
         
         """\___________________[SELLER]___________________/"""
@@ -75,8 +79,12 @@ class SellerTests(TestCase):
     def test_unique_name(self):
         with self.assertRaises(IntegrityError):
             Seller.objects.create(
-                User = self.user4,
-                name = "Masazone Shop",
+                user = self.user4,
+                name = "test",
+            )
+            Seller.objects.create(
+                user = self.user5,
+                name = "test",
             )
 
     def test_unique_rank(self):
@@ -97,8 +105,8 @@ class SellerTests(TestCase):
     """\________________[ROLE]________________/"""
         
     def test_is_seller(self):
-        self.assertEqual(self.seller1.is_seller, True)
-        self.assertEqual(self.seller2.is_seller, True)
+        self.assertEqual(self.seller1.user.is_seller, True)
+        self.assertEqual(self.seller2.user.is_seller, True)
 
     """\_______________[METHOD]_______________/"""
 
@@ -122,8 +130,8 @@ class SellerTests(TestCase):
     """\_______________[META]_______________/"""
     
     def test_ordering(self):
-        all_sellers = Seller.objects.all()
-        top_seller = all_sellers.first()
+        all_ranking_sellers = Seller.objects.filter(rank__isnull=False)
+        top_seller = all_ranking_sellers.first()
         
         self.assertEqual(top_seller, self.seller3)
     
