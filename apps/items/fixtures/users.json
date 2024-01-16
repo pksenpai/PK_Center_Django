@@ -1,0 +1,35 @@
+[  
+    {    
+        "model": "users.User",
+        "pk": 1,    
+        "fields": {      
+            "username": "SoSShop",
+            "password": "a1b2c3d4e5",
+            "email": "info@sos.test",
+            "phone_number": "19124230384",
+            "is_seller": true
+        }  
+    },
+    {    
+        "model": "users.User",
+        "pk": 2,    
+        "fields": {      
+            "username": "masazone",
+            "password": "m123a123s123a123",
+            "email": "info@masazone.test" ,
+            "phone_number": "11122233344",
+            "is_seller": true
+        }  
+    },
+    {    
+        "model": "users.User",
+        "pk": 3,    
+        "fields": {      
+            "username": "mmmmmmmmm123",
+            "password": "rf2huw089412u03r23",
+            "email": "info@m.test" ,
+            "phone_number": "10123409238",
+            "is_seller": true
+        }  
+    }
+]

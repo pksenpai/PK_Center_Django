@@ -1,0 +1,43 @@
+[
+    {
+        "model": "items.Item",
+        "pk": 1,
+        "fields": {
+            "name": "Ford Mostang 1969",
+            "brand": "Ford",
+            "price": 2000000,
+            "category": 2
+        }
+    },
+    {
+        "model": "items.Item",
+        "pk": 2,
+        "fields": {
+            "name": "Asus 1080xp",
+            "brand": "Asus",
+            "price": 2000.99,
+            "category": 2
+        }
+    },
+    {
+        "model": "items.Item",
+        "pk": 3,
+        "fields": {
+            "name": "IBM xc4000D",
+            "brand": "IBM",
+            "price": 20000,
+            "category": 2
+        }
+    },
+    {
+        "model": "items.Item",
+        "pk": 4,
+        "fields": {
+            "name": "USB xpk003",
+            "brand": "PK",
+            "price": 20.99,
+            "category": 3
+        }
+    }
+]
+
