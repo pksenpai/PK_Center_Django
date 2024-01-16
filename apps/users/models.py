@@ -99,7 +99,7 @@ class Profile(ProfileImageBaseModel):
         return reverse("users:profile", args=[self.id])
 
     def __str__(self):
-        return str(self.user)
+        return str(self.name)
     
 
 class Address(LogicalBaseModel, StatusMixin):
