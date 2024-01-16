@@ -49,6 +49,11 @@ class Item(ItemImageBaseModel, StatusMixin):
         related_name = 'liked_item',
     )
 
+    class Meta:
+        verbose_name_plural = _("Items")
+        verbose_name        = _("Item")
+        ordering            =  ("?",)
+        
     def get_absolute_url(self):
         return reverse("items:item_details", args=[self.id])
 
@@ -77,6 +82,10 @@ class Rating(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='rating')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rating')
 
+    class Meta:
+        verbose_name_plural = _("Ratings")
+        verbose_name        = _("Rating")
+
     @cached_property
     def cached_average(self):
         cache_key = f"item_avg[{self.pk}]"
@@ -102,6 +111,10 @@ class SellerItem(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE, verbose_name=_("Seller"), related_name='item')
     count  = models.PositiveIntegerField()
 
+    class Meta:
+        verbose_name_plural = _("Seller Items")
+        verbose_name        = _("Seller Item")
+        
     def __str__(self):
         return str(seller)
             
@@ -110,6 +123,10 @@ class Favorite(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='favorite')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorite')
 
+    class Meta:
+        verbose_name_plural = _("Favorites")
+        verbose_name        = _("Favorite")
+        
     def __str__(self):
         return str(user)
 
