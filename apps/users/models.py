@@ -101,9 +101,9 @@ class Profile(ProfileImageBaseModel):
 class Address(LogicalBaseModel, StatusMixin):
             
     """\_______________[MAIN]_______________/"""
-            
-    city = models.CharField(max_length=100, verbose_name=_('City'))
-    state = models.CharField(max_length=100, verbose_name=_('State'))
+    country = models.CharField(max_length=100, verbose_name=_('Country'))
+    city    = models.CharField(max_length=100, verbose_name=_('City'))
+    state   = models.CharField(max_length=100, verbose_name=_('State'))
     address = models.TextField(verbose_name=_('Address'))
 
     """\_______________[RELATION]_______________/"""
