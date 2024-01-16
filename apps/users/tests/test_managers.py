@@ -14,29 +14,35 @@ class ProfileManagerTest(TestCase):
     
     def setUp(self):
         """\___________________[user]___________________/"""
-        self.user_customer = User.objects.get(email="customer@test.test", is_seller=False)
-        self.user_seller   = User.objects.get(email="info@masazone.test", is_seller=True)
+        self.customer_user = User.objects.get(email="customer@test.test", is_seller=False)
+        self.seller_user   = User.objects.get(email="info@masazone.test", is_seller=True)
         
         """\___________________[PROFILE]___________________/"""
         
-        self.profile_customer = Profile.objects.create(
-            user = self.user_customer,
+        self.customer_profile = Profile.objects.create(
+            user = self.customer_user,
             name = "mamad gholi",
             description = "I love Books! i post some videos about books that i buyed here X3"
         )
-
-        # self.profile_seller_sm = 
-    """\_______________[EXISTS]_______________/"""
-    def test_profile_customer_exists(self):
-        self.assertTrue(self.profile_customer)
-
-    """\______________[NOCREATE]______________/"""
-    
-    def test_seller_not_find_to_create(self):
-        profile = Profile.objects.create(
-            user = self.user_seller, # this user is an admin seller so It should not be made with this Model!
+        
+        self.seller_profile = Profile.objects.create(
+            user = self.seller_user, # this user is an admin seller so It should not be made with this Model!
             name = "Masazone Shop",
             description = "We are a shop that sell best books around the world. Quality is more important to us than quantity!"
         )
+
+    """\_______________[QUERYSET]_______________/"""
+    def test_get_queryset(self):
+        all_profiles = Profile.objects.all()
         
-        self.assertFalse(profile)
+        self.assertIn(self.customer_profile, all_profiles)
+        self.assertIn(self.seller_profile, all_profiles)
+
+    """\______________[CUSTOME]______________/"""
+    
+    def test_customer(self):
+        customer_profiles = Profile.objects.customer()
+        
+        self.assertIn(self.customer_profile, customer_profiles)
+        self.assertNotIn(self.seller_profile, customer_profiles)
+        
