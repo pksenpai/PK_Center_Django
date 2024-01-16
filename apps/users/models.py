@@ -43,8 +43,12 @@ class User(AbstractUser):
         verbose_name = _('is seller?')
     )
 
+    class Meta:
+        verbose_name_plural = _("Users")
+        verbose_name        = _("User")
+        
     """\_______________[METHOD]_______________/"""
-
+    
     def __str__(self):
         return self.username
 
@@ -81,6 +85,10 @@ class Profile(ProfileImageBaseModel):
             verbose_name = _('Follows'),
         )
 
+    class Meta:
+        verbose_name_plural = _("Profiles")
+        verbose_name        = _("Profile")
+        
     """\_______________[METHOD]_______________/"""
 
     def get_absolute_url(self):
@@ -107,6 +115,11 @@ class Address(LogicalBaseModel, StatusMixin):
             verbose_name = _('User'),
         )
     
+    class Meta:
+        verbose_name_plural = _("Addresses")
+        verbose_name        = _("Address")
+        ordering            =  ('city',)
+        
     """\_______________[METHOD]_______________/"""
 
     def __str__(self):
