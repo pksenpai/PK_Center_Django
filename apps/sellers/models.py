@@ -15,7 +15,9 @@ class Seller(Profile):
     objects = SellerManager()
 
     class Meta:
-        ordering = ("rank",)
+        verbose_name_plural = _("Sellers")
+        verbose_name        = _("Seller")
+        ordering            =  ("rank",)
 
     def __str__(self):
         return self.name
