@@ -300,11 +300,11 @@ class AddressTest(TestCase):
     
     def test_has_city(self):
         self.assertEqual(self.customer_address.city, "Tehran")
-        self.assertEqual(self.seller_address.city, "Shiraz")
+        self.assertEqual(self.seller_address.city, "Kyoto")
    
     def test_has_state(self):
         self.assertEqual(self.customer_address.state, "Tehran")
-        self.assertEqual(self.seller_address.state, "Shiraz")
+        self.assertEqual(self.seller_address.state, "Kyoto")
 
     def test_has_address(self):
         self.assertEqual(self.customer_address.address, "meydoon azadi, sar charah sadeghieh, pelak x23")
