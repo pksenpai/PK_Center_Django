@@ -157,12 +157,12 @@ class UserTests(TestCase):
     
     def test_str(self):
         customer_expected_str = "jj1912"
-        seller_expected_str = "masazone"
-        staff_expected_str = "staff001"
+        seller_expected_str   = "masazone"
+        staff_expected_str    = "staff001"
         
         customer_actual_str = str(self.user_customer)
-        seller_actual_str = str(self.user_seller)
-        staff_actual_str = str(self.user_staff)
+        seller_actual_str   = str(self.user_seller)
+        staff_actual_str    = str(self.user_staff)
 
         self.assertEqual(
             customer_expected_str,
@@ -187,7 +187,7 @@ class ProfileTest(TestCase):
     def setUp(self):
         """\___________________[user]___________________/"""
         self.user_customer = User.objects.get(email="customer@test.test", is_seller=False)
-        self.user_seller = User.objects.get(email="info@masazone.test", is_seller=True)
+        self.user_seller   = User.objects.get(email="info@masazone.test", is_seller=True)
         
         """\___________________[PROFILE]___________________/"""
         
@@ -253,10 +253,10 @@ class ProfileTest(TestCase):
 
     def test_str(self):
         customer_expected_str = "jj1912"
-        seller_expected_str = "masazone"
+        seller_expected_str   = "masazone"
         
         customer_actual_str = str(self.profile_customer)
-        seller_actual_str = str(self.profile_seller)
+        seller_actual_str   = str(self.profile_seller)
 
         self.assertEqual(
             customer_expected_str,
@@ -276,21 +276,23 @@ class AddressTest(TestCase):
     def setUp(self):
         """\___________________[user]___________________/"""
         self.user_customer = User.objects.get(email="customer@test.test", is_seller=False)
-        self.user_seller = User.objects.get(email="info@masazone.test", is_seller=True)
+        self.user_seller   = User.objects.get(email="info@masazone.test", is_seller=True)
         
         """\___________________[ADDRESS]___________________/"""
         
         self.customer_address = Address.objects.create(
-            user = self.user_customer,
-            city = "Tehran",
-            state = "Tehran",
+            user    = self.user_customer,
+            country = "Iran",
+            city    = "Tehran",
+            state   = "Tehran",
             address = "meydoon azadi, sar charah sadeghieh, pelak x23"
         )
         
         self.seller_address = Address.objects.create(
-            user = self.user_seller,
-            city = "Shiraz",
-            state = "Shiraz",
+            user    = self.user_seller,
+            country = "Japan",
+            city    = "Kyoto",
+            state   = "Kyoto",
             address = "meydoon Takhti, Kenar mamad golabi, pelak y85"
         )
     
@@ -312,10 +314,10 @@ class AddressTest(TestCase):
     
     def test_str(self):
         customer_expected_str = "jj1912"
-        seller_expected_str = "masazone"
+        seller_expected_str   = "masazone"
         
         customer_actual_str = str(self.customer_address)
-        seller_actual_str = str(self.seller_address)
+        seller_actual_str   = str(self.seller_address)
 
         self.assertEqual(
             customer_expected_str,
