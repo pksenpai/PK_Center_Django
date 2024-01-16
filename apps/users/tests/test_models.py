@@ -1,5 +1,6 @@
 from django.test import TestCase
 from apps.users.models import Profile, Address
+from apps.sellers.models import Seller
 from django.contrib.auth import get_user_model; User = get_user_model()
 
 from django.urls import reverse
@@ -186,8 +187,8 @@ class ProfileTest(TestCase):
     
     def setUp(self):
         """\___________________[user]___________________/"""
-        self.user_customer = User.objects.get(email="customer@test.test", is_seller=False)
-        self.user_seller   = User.objects.get(email="info@masazone.test", is_seller=True)
+        self.user_customer  = User.objects.get(email="customer@test.test", is_seller=False)
+        self.user_seller    = User.objects.get(email="info@masazone.test", is_seller=True)
         
         """\___________________[PROFILE]___________________/"""
         
@@ -252,8 +253,8 @@ class ProfileTest(TestCase):
         )
 
     def test_str(self):
-        customer_expected_str = "jj1912"
-        seller_expected_str   = "masazone"
+        customer_expected_str = "mamad gholi"
+        seller_expected_str   = "Masazone Shop"
         
         customer_actual_str = str(self.profile_customer)
         seller_actual_str   = str(self.profile_seller)
