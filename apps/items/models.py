@@ -14,6 +14,7 @@ from django.utils.functional import cached_property
 
 
 class Item(ItemImageBaseModel, StatusMixin):
+    """\_______________[MAIN]_______________/"""
     name        = models.CharField(max_length=300,verbose_name=_("Name"))
     brand       = models.CharField(max_length=200,verbose_name=_("Brand"))
     description = models.TextField(verbose_name=_("Description"))
@@ -21,6 +22,7 @@ class Item(ItemImageBaseModel, StatusMixin):
 
     # Total count calculate with sum of every SellerItem counts!
 
+    """\_____________[RELATIONS]_____________/"""
     category = models.ForeignKey(
         to           = Category,
         on_delete    = models.CASCADE,
@@ -70,6 +72,7 @@ class Rating(models.Model):
         FOUR_STAR  = 4, _("4")
         FIVE_STAR  = 5, _("5")
 
+    """\_______________[MAIN]_______________/"""
     score = models.IntegerField(
         choices    = StarChoices,
         editable   = False,
@@ -78,7 +81,8 @@ class Rating(models.Model):
             MaxValueValidator(5),
         ],
     )
-
+    
+    """\_____________[RELATIONS]_____________/"""
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='rating')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rating')
 
@@ -107,9 +111,12 @@ class Rating(models.Model):
     
 
 class SellerItem(models.Model):
+    """\_______________[MAIN]_______________/"""
+    count  = models.PositiveIntegerField()
+    
+    """\_____________[RELATIONS]_____________/"""
     item   = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name=_("Item"),   related_name='seller')
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE, verbose_name=_("Seller"), related_name='item')
-    count  = models.PositiveIntegerField()
 
     class Meta:
         verbose_name_plural = _("Seller Items")
@@ -120,6 +127,7 @@ class SellerItem(models.Model):
             
 
 class Favorite(models.Model):
+    """\_____________[RELATIONS]_____________/"""
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='favorite')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorite')
 
