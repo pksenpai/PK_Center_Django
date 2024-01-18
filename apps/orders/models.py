@@ -3,6 +3,7 @@ from apps.core.models import LogicalBaseModel, StatusMixin, TimeStampBaseModel
 from django.contrib.auth import get_user_model; User = get_user_model()
 from apps.users.models import Address
 from apps.items.models import Item
+from .managers import DiscountManager
 
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
@@ -79,15 +80,6 @@ class OrderItem(models.Model):
     """\_____________[RELATIONS]_____________/"""
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_item")
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="order_item")
-
-
-class DiscountManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(
-            expire_datetime__gte = timezone.now(),
-            created_at__lte = timezone.now(),
-            count__gt= 0,
-        ) # only discounts that not expired & exists :)
 
 
 class Discount(TimeStampBaseModel):
