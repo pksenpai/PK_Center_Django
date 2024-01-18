@@ -7,12 +7,14 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Seller(Profile):
+    """\_______________[MAIN]_______________/"""
     rank = models.PositiveIntegerField(
         null         = True,
         unique       = True,
         verbose_name = _("Rank")
     )
 
+    """\_____________[RELATIONS]_____________/"""
     category = models.ForeignKey(
         to           = Category,
         on_delete    = models.SET_NULL,
