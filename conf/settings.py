@@ -33,7 +33,9 @@ MY_APPS = [
     "apps.users.apps.UsersConfig",
 ]
 
-EXTRA_APPS = []
+EXTRA_APPS = [
+    'django_extensions',
+]
 
 INSTALLED_APPS = DJANGO_APPS + MY_APPS + EXTRA_APPS
 
@@ -94,6 +96,11 @@ AUTH_USER_MODEL = "users.User"
 
 # mode handling
 if DEBUG:
+    GRAPH_MODELS ={
+        'all_applications': True,
+        'graph_models': True,
+    }
+    
     STATICFILES_DIRS = [
         BASE_DIR / 'static'
     ]

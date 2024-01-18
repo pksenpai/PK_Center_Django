@@ -144,3 +144,7 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# Extra Tool Files
+erd.dot
+
