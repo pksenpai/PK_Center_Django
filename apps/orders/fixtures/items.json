@@ -1,0 +1,23 @@
+[
+    {
+        "model": "items.Item",
+        "pk": 1,
+        "fields": {
+            "name": "Ford Mostang 1969",
+            "brand": "Ford",
+            "price": 2000000,
+            "category": 1
+        }
+    },
+    {
+        "model": "items.Item",
+        "pk": 2,
+        "fields": {
+            "name": "Asus 1080xp",
+            "brand": "Asus",
+            "price": 2000.99,
+            "category": 2
+        }
+    }
+]
+

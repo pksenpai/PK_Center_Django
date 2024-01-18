@@ -1,0 +1,35 @@
+[  
+    {    
+        "model": "users.Address",
+        "pk": 1,    
+        "fields": {      
+            "country": "Iran",
+            "city": "Tehran",
+            "state": "test1",    
+            "address": "TestAddress1",
+            "user": 1
+        }  
+    },
+    {    
+        "model": "users.Address",
+        "pk": 2,    
+        "fields": {      
+            "country": "Japan",
+            "city": "Tokyo",
+            "state": "test2", 
+            "address": "TestAddress2",
+            "user": 1
+        }  
+    },
+    {    
+        "model": "users.Address",
+        "pk": 3,    
+        "fields": {      
+            "country": "India",
+            "city": "Dehli",
+            "state": "test3",
+            "address": "TestAddress3",
+            "user": 2
+        }  
+    }
+]

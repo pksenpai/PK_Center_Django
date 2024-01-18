@@ -1,0 +1,32 @@
+[  
+    {    
+        "model": "users.User",
+        "pk": 1,    
+        "fields": {      
+            "username": "sogol123",
+            "password": "321logoss",
+            "email": "sogi@customer.test"
+        }  
+    },
+    {    
+        "model": "users.User",
+        "pk": 2,    
+        "fields": {      
+            "username": "S2arKhamBoY",
+            "password": "sfjfkj2343",
+            "email": "Ark@customer.test",
+            "phone_number": "00332148798"
+        }  
+    },
+    {    
+        "model": "users.User",
+        "pk": 3,    
+        "fields": {      
+            "username": "SoSShop",
+            "password": "a1b2c3d4e5",
+            "email": "info@sos.test",
+            "phone_number": "19124230384",
+            "is_seller": true   
+        }
+    }
+]

@@ -1,0 +1,29 @@
+[
+    {
+        "model": "orders.OrderItem",
+        "pk": 1,
+        "fields": {
+            "count": 3,
+            "order": 1,
+            "item": 1
+        }
+    },
+    {
+        "model": "orders.OrderItem",
+        "pk": 2,
+        "fields": {
+            "count": 3,
+            "order": 2,
+            "item": 2
+        }
+    },
+    {
+        "model": "orders.OrderItem",
+        "pk": 3,
+        "fields": {
+            "count": 5,
+            "order": 2,
+            "item": 2
+        }
+    }
+]
