@@ -76,9 +76,8 @@
       </div>
     </header>
 
-    <main>
-      <div id="body">{% block body %}{% endblock %}</div>
-    </main>
+    <!-- Dynamic Body -->
+    {% block body %}{% endblock %}
 
     {% if footer %}
     <div class="position-absolute container top-100 start-50 translate-middle">
@@ -103,4 +102,6 @@
   <script src="js/beauty_mouse.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  {% block js %}{% endblock %}
+
 </html>

@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block header_setting %}
+    <link rel="stylesheet" href="css/003.css">
+    <link rel="stylesheet" href="css/015.css">
+{% endblock %}
+
+{% block body %}
+<main>
+
+    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
+        <div class="offcanvas-header">                    
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        
+        <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
+            <nav>
+                <ul>
+                        <li>
+                            <a href="login.html">Login Form</a>
+                        </li>
+
+                        <li>
+                            <a href="register.html">Create an account</a>
+                        </li>
+
+                        <li>
+                            <a href="password-reset.html">Password Reset</a>
+                        </li>
+
+                        <li>
+                            <a href="404.html">404 Page</a>
+                        </li>
+
+                        <li>
+                            <a href="contact.html">Contact Form</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form action="#" method="get" class="custom-form mt-lg-4 mt-2" role="form">
+                            <h2 class="modal-title" id="subscribeModalLabel">Stay up to date</h2>
+
+                            <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="your@email.com" required="">
+
+                            <button type="submit" class="form-control">Notify</button>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer justify-content-center">
+                        <p>By signing up, you agree to our Privacy Notice</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-6 col-12 ">
+
+                        
+                      <h1 class="text-white mt-2 mb-4 pb-2">
+                            You can find anything from anywhere !
+                            <hr class="" size="7" width="70%" style="background-color: aliceblue; opacity: 70%;"> 
+                            <small> by 
+                                <a rel="nofollow" target="_blank" href="https://github.com/pksenpai">PKPY</a>
+                                    With the help of ready-made templates for free
+                            </small>
+                        </h1>
+
+                         <ul class="countdown d-flex flex-wrap align-items-center">
+                            <li class="countdown-item d-flex flex-column justify-content-center align-items-center">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="video-wrap">
+                <video autoplay="" loop="" muted="" class="custom-video" poster="">
+                    <source src="videos/video.mp4" type="video/mp4">
+
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </section>
+    
+        <div class="mt-5 align-items-center" id="hero-slides">
+
+            <div id="slides" class="row bg-black">
+                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/ef5af971-fc46-4ee1-a589-980346478696_opt.png)">
+                    <div class="number">01</div>
+                    <div class="body">
+                    <div class="location">Shibuya, Japan</div>
+                    <div class="headline">Photo by Benjamin Hung</div><a href="https://unsplash.com/photos/EYmhcdGuYmI" target="_blank">
+                        <div class="link">View on Unsplash</div></a>
+                    </div>
+                </div>
+                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/522d6a86-0dcf-4554-8b22-7655d65a1f66_opt.png)">
+                    <div class="number">02</div>
+                    <div class="body">
+                    <div class="location">Mong Kok, Hong Kong</div>
+                    <div class="headline">Photo by Ryan Tang</div><a href="https://unsplash.com/photos/ANJHXftvvJ8" target="_blank">
+                        <div class="link">View on Unsplash</div></a>
+                    </div>
+                </div>
+                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/9b5f71cb-34a3-4fb4-a3a6-0ce9557c0acd_opt.png)">
+                    <div class="number">03</div>
+                    <div class="body">
+                    <div class="location">Incheon, South Korea</div>
+                    <div class="headline">Photo by Steve Roe</div><a href="https://unsplash.com/photos/73aocAAt7rs" target="_blank">
+                        <div class="link">View on Unsplash</div></a>
+                    </div>
+                </div>
+                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/10cfd52d-e217-41e9-bb8b-ad43384a5e63_opt.png)">
+                    <div class="number">04</div>
+                    <div class="body">
+                    <div class="location">Wan Chai, Hong Kong</div>
+                    <div class="headline">Photo by Sean Foley</div><a href="https://unsplash.com/photos/aPDCEoW7B78" target="_blank">
+                        <div class="link">View on Unsplash</div></a>
+                    </div>
+                </div>
+                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/b9669f2a-17fc-47dc-b6b5-3f863004efa8_opt.png)">
+                    <div class="number">05</div>
+                    <div class="body">
+                    <div class="location">Shibuya-ku, Japan</div>
+                    <div class="headline">Photo by Alex Knight</div><a href="https://unsplash.com/photos/Akz00I_GGjU" target="_blank">
+                        <div class="link">View on Unsplash</div></a>
+                    </div>
+                </div>
+                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/31979576-5060-4513-aae2-b379b87e7fe6_opt.png)">
+                    <div class="number">06</div>
+                    <div class="body">
+                    <div class="location">Tokyo, Japan</div>
+                    <div class="headline">Photo by Benjamin Hung</div><a href="https://unsplash.com/photos/pTn26knnKVw" target="_blank">
+                        <div class="link">View on Unsplash</div></a>
+                    </div>
+                </div>
+                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/429b83b8-1ad4-4450-b0de-0a0c1073cf1e_opt.jpg)">
+                    <div class="number">07</div>
+                    <div class="body">
+                    <div class="location">Taipei City, Taiwan</div>
+                    <div class="headline">Photo by Jesus In Taiwan</div><a href="https://unsplash.com/photos/v63B_MUiFw8" target="_blank">
+                        <div class="link">View on Unsplash</div></a>
+                    </div>
+                </div>
+                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/429b83b8-1ad4-4450-b0de-0a0c1073cf1e_opt.jpg)">
+                    <div class="number">08</div>
+                    <div class="body">
+                    <div class="location">Taipei City, Taiwan</div>
+                    <div class="headline">Photo by Jesus In Taiwan</div><a href="https://unsplash.com/photos/v63B_MUiFw8" target="_blank">
+                        <div class="link">View on Unsplash</div></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="particles-js">
+
+            <div class="container ">
+                <div class="footer"></div>
+            </div>
+            <canvas class="particles-js-canvas-el" width="300" height="688" style="width: 100%; height: 100%;"></canvas>
+        </div>
+    </main>
+    {% endblock %}
+
+{% block js %}
+    <script src="js/015.js"></script>
+{% endblock %}
