@@ -1,3 +1,12 @@
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+
+@admin.register(Order)
+class TaskAdmin(admin.ModelAdmin): ...
+
+@admin.register(OrderItem)
+class TaskAdmin(admin.ModelAdmin): ...
+
+@admin.register(Discount)
+class TaskAdmin(admin.ModelAdmin): ...
