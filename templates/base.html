@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -13,30 +15,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
-    
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    
-    <link href="css/bootstrap-icons.css" rel="stylesheet">
-    
-    <link href="css/tooplate-kool-form-pack.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="css/beauty_mouse.css">
-    
+
+
+    <link href="{% static 'core/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'core/bootstrap/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'core/css/tooplate-kool-form-pack.css' %}" rel="stylesheet">
+    <link href="{% static 'core/css/search_bar.css' %}" rel="stylesheet">
+
     <!-- FOR adding more head settings later -->                
     {% block header_setting %}{% endblock %}
   
-    <title>{% block title %}PK Center | Home{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
     
   </head>
   
-  <body class="bg-black">
+  {% if bg_color %}
+    <body class="bg-{{ bg_color }}">
+  {% else %}
+    <body class="bg-white">
+  {% endif %}
       
-    <header class="site-header">
+  <header class="site-header">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} mt-5 py-2" style="position: fixed;">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
       <div class="container">
         <div class="row justify-content-between">
             
           <div class="col-lg-12 col-12 d-flex align-items-center">
-            <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="index.html">
+            <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="{% url "core:home" %}">
               <i class="bi-box" style="color: aqua;"></i>
               
               <span style="color: aqua;">
@@ -45,27 +56,38 @@
             </a>
             
             <ul class="social-icon d-flex justify-content-center align-items-center me-auto">
-                
-              <li class="social-icon-item">
-                <a href="#" class="social-icon-link bi-instagram"></a>
-              </li>
-              
-              <li class="social-icon-item">
-                <a href="#" class="social-icon-link bi-twitter"></a>
-              </li>
-              
-              <li class="social-icon-item">
-                <a href="#" class="social-icon-link bi-whatsapp"></a>
-              </li>
+
+              {% comment %} SEARCH BAR {% endcomment %}
+              <form class="mb-3 pt-5" role="search" action="{{ request.path }}">
+                <div class="sb-animate">
+                  <input name="searched" type="search" class="form-control-dark" placeholder="Search Anything..." aria-label="Search">
+                  <div class="search"></div>
+                </div>
+              </form>
             </ul>
             
             <div>
-                <a href="#" class="custom-btn custom-border-btn border-end-0 btn" data-bs-toggle="modal" data-bs-target="#subscribeModal">Sign Up
-                  <!-- <i class="bi-arrow-right ms-2"></i> -->
+              {% if user.is_authenticated %}
+                <div class="dropdown text-end">
+                  <a href="#" class="d-block text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{% static "core/images/default.png" %}" alt="mdo" width="32" height="32" class="rounded-circle">
+                  </a>
+                  <ul class="dropdown-menu text-small" style="background-color: #8fedf2;">
+                    <li><b class="dropdown-item text-center fw-bold pt-0">< {{ request.user }} ></b></li>
+                    <li><hr class="dropdown-divider mt-0 text-center"></li>
+                    <li><b class="dropdown-item text-center text-success fw-bold pt-0"> 10249.99$ </b></li>
+                    <li><hr class="dropdown-divider text-center"></li>
+                    <li><a class="dropdown-item text-center text-danger" href="{% url "users:logout" %}?next={{ request.path }}">Logout</a></li>
+                  </ul>
+                </div>
+              {% else %}
+                <a class="custom-btn custom-border-btn border-end-0 btn" href="{% url "users:signup" %}?next={{ request.path }}">
+                  Sign Up
                 </a>
-                <a href="#" class="custom-btn custom-border-btn border-start-0 btn" data-bs-toggle="modal" data-bs-target="#subscribeModal">Login
-                  <!-- <i class="bi-arrow-right ms-2"></i> -->
+                <a class="custom-btn custom-border-btn border-start-0 btn" href="{% url 'users:login' %}?next={{ request.path|urlencode }}">
+                  Login
                 </a>
+              {% endif %}
             </div>
             
             <a class="bi-list offcanvas-icon" data-bs-toggle="offcanvas" href="#offcanvasMenu" role="button" aria-controls="offcanvasMenu"></a>
@@ -74,12 +96,51 @@
 
         </div>
       </div>
+
+      <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
+        <div class="offcanvas-header">                    
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        
+        <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
+          <div class="offcanvas-header">                    
+              <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          
+          <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
+            <nav>
+              <ul>
+                <li>
+                    <a href="login.html">Login Form</a>
+                </li>
+
+                <li>
+                    <a href="register.html">Create an account</a>
+                </li>
+
+                <li>
+                    <a href="password-reset.html">Password Reset</a>
+                </li>
+
+                <li>
+                    <a href="404.html">404 Page</a>
+                </li>
+
+                <li>
+                    <a href="contact.html">Contact Form</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
     </header>
 
     <!-- Dynamic Body -->
     {% block body %}{% endblock %}
 
     {% if footer %}
+    {% block footer %}
     <div class="position-absolute container top-100 start-50 translate-middle">
       <footer class="d-flex flex-wrap justify-content-between align-items-center py-2 my-4 border-top">
         <p class="col-md-4 mb-0 text-white">© 2023 | Dev by PKPY</p>
@@ -94,14 +155,13 @@
         </ul>
       </footer>
     </div>
+    {% endblock %}
+    {% endif %}
   </body>
   <!-- JAVASCRIPT FILES -->
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.bundle.min.js"></script>
-  <script src="js/init.js"></script>
-  <script src="js/beauty_mouse.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script src="{% static 'core/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'core/js/jquery.min.js' %}"></script>
+  <script src="{% static 'core/js/init.js' %}"></script>
   {% block js %}{% endblock %}
 
 </html>
