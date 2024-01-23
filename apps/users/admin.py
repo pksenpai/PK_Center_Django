@@ -6,12 +6,13 @@ from .models import Profile, Address, User
 from django.utils.translation import gettext_lazy as _
 # from .forms import CustomUserCreationForm, CustomUserChangeForm
 
-
-class ProfileInline(admin.StackedInline):
-    model = Profile
-    can_delete=False
-    verbose_plural_name="User Profile"
-    fk_name = 'user'  
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin): ...
+# class ProfileInline(admin.StackedInline):
+#     model = Profile
+#     can_delete=False
+#     verbose_plural_name="User Profile"
+#     fk_name = 'user'  
 
 class AddressInline(admin.StackedInline):
     model = Address
