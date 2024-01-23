@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.core.validators import RegexValidator
 
 
-class User(AbstractUser):
+class User(LogicalBaseModel, AbstractUser):
     
     """\_______________[MAIN]_______________/"""
     

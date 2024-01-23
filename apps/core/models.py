@@ -28,7 +28,7 @@ class TimeStampBaseModel(models.Model):
 
 class LogicalBaseModel(models.Model):
     is_active = models.BooleanField(
-        default      = True,
+        default      = False,
         verbose_name = _("Active"),
     )
     
@@ -68,7 +68,7 @@ class StatusMixin:
 
 class ProfileImageBaseModel(LogicalBaseModel, StatusMixin):
     """ low size images for User & Seller profiles """
-    src = models.ImageField(upload_to='images/profile/')
+    src = models.ImageField(upload_to='images/profile/', default='default.png')
     alt = models.CharField(max_length=255)
         
     class Meta:

@@ -67,7 +67,7 @@ class Rating(models.Model):
     class StarChoices(models.TextChoices):
         ZERO_STAR  = 0, _("0")
         ONE_STAR   = 1, _("1")
-        TWO_STAR   = 2, _("2")
+        TWO_STAR   = 2, _("two")
         THREE_STAR = 3, _("3")
         FOUR_STAR  = 4, _("4")
         FIVE_STAR  = 5, _("5")
@@ -75,7 +75,7 @@ class Rating(models.Model):
     """\_______________[MAIN]_______________/"""
     score = models.IntegerField(
         choices    = StarChoices,
-        editable   = False,
+        # editable   = False,
         validators = [
             MinValueValidator(0),
             MaxValueValidator(5),
@@ -94,7 +94,7 @@ class Rating(models.Model):
     def cached_average(self):
         cache_key = f"item_avg[{self.pk}]"
         cached_value = cache.get(cache_key)
-        if cached_value is not None:
+        if cached_value:
             return cached_value
             
         average_score = self.__class__.objects.filter(item=self.item).aggregate(avg_score=models.Avg('score'))['avg_score']
