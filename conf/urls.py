@@ -9,6 +9,7 @@ urlpatterns = [
     #     prefix_default_language=True,
     # ),
     path('admin/', admin.site.urls),
+    path('', include('apps.core.urls')), # --> Home page
     path('account/', include('apps.users.urls')),
     path('items/', include('apps.items.urls')),
     path('orders/', include('apps.orders.urls')),
