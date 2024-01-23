@@ -41,6 +41,7 @@ MY_APPS = [
 
 EXTRA_APPS = [
     'django_extensions',
+    # 'sending_email_app',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + MY_APPS + EXTRA_APPS
@@ -72,6 +73,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'apps.core.contexts.category',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -113,6 +115,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Custom User
 AUTH_USER_MODEL = "users.User"
 
+# Backends
+AUTHENTICATION_BACKENDS = ("apps.users.backends.CustomModelBackend",)
+
 # mode handling
 if DEBUG:
     GRAPH_MODELS ={
@@ -121,22 +126,48 @@ if DEBUG:
     }
     
     STATICFILES_DIRS = [
-        BASE_DIR / 'static'
+        BASE_DIR / 'static',
     ]
     
+    # Celery:    
+    CELERY_BROKER_URL = config("CELERY_BROKER_URL_DEV")
+    CELERY_TIMEZONE = TIME_ZONE
+
     # Cache
+    # CACHES = {
+    #     "default": {
+    #         "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    #     }
+    # }
+    
+    #____________________________________________________________
+    REDIS_HOST = config("REDIS_HOST")
+    REDIS_PORT = config("REDIS_PORT")
+    REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+    
+    # Cache Services:
     CACHES = {
-        "default": {
-            "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': REDIS_URL,
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            }
         }
     }
     
+    #____________________________________________________________
+    
     # Email
-    EMAIL_USE_TLS = False
-    EMAIL_HOST = "localhost"
-    EMAIL_HOST_USER = ""
-    EMAIL_HOST_PASSWORD = ""
-    EMAIL_PORT = 25
+    EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+    # EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST = config("EMAIL_HOST")
+    EMAIL_PORT = config("EMAIL_PORT")
+    EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+    EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
+    # EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool)
+    # DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
     
     # Development Sqlite3 db:
     DATABASES = {
@@ -153,6 +184,10 @@ else:
     REDIS_PORT = config("REDIS_PORT")
     REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
     
+    # Celery:
+    CELERY_BROKER_URL = config("CELERY_BROKER_URL_PRO")
+    CELERY_TIMEZONE = TIME_ZONE
+    
     # Cache Services:
     CACHES = {
         "default": {
@@ -162,6 +197,7 @@ else:
     }
     
     # Email settings
+    EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = config("EMAIL_HOST")
     EMAIL_PORT = config("EMAIL_PORT")
     EMAIL_HOST_USER = config("EMAIL_HOST_USER")
