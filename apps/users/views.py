@@ -59,9 +59,7 @@ class EmailLoginView(FormView):
                 user = CMB().authenticate(request=request, email=user_email)
                 if user:
                     otp_code = store_otp(user_email)
-                    print("XXXXXXXXXXXXXXXXXXXX__OTP__XXXXXXXXXXXXXXXXXXXX>>>", otp_code)
                     status = send_otp_by_email(user_email, otp_code) # delay
-                    print("XXXXXXXXXXXXXXXXXXXX__STATUS__XXXXXXXXXXXXXXXXXXXX>>>", status)
                     
                     if status:
                         request.session['email'] = user_email
