@@ -146,8 +146,8 @@ if DEBUG:
     # }
     
     #____________________________________________________________
-    REDIS_HOST = config("REDIS_HOST")
-    REDIS_PORT = config("REDIS_PORT")
+    REDIS_HOST = config("REDIS_HOST_dev")
+    REDIS_PORT = config("REDIS_PORT_dev")
     REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
     
     # Cache Services:
@@ -185,8 +185,8 @@ if DEBUG:
 else:
     STATIC_ROOT = BASE_DIR / 'static'
     
-    REDIS_HOST = config("REDIS_HOST")
-    REDIS_PORT = config("REDIS_PORT")
+    REDIS_HOST = config("REDIS_HOST_pro")
+    REDIS_PORT = config("REDIS_PORT_pro")
     REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
     
     # Celery:
