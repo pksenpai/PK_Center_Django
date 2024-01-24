@@ -72,13 +72,13 @@ class EmailLoginView(FormView):
                         )
                         return redirect("users:otp")
                     else:
-                        messages.error(request, _("Opss! some truble happend! please try again!"))
+                        messages.error(request, _("Opss! some truble happend! please try again!"), extra_tags="danger")
                 else:
-                    messages.error(request, _("you didn't define email or you need to signup!"))
+                    messages.error(request, _("you didn't define email or you need to signup!"), extra_tags="danger")
             else:
-                messages.error(request, _(form.errors))
+                messages.error(request, _(form.errors), extra_tags="danger")
         else:
-            messages.error(request, _("email field cant Empty!"))
+            messages.error(request, _("email field cant Empty!"), extra_tags="danger")
         
         return self.render_to_response(self.get_context_data())
         
@@ -110,13 +110,14 @@ class OTPView(TemplateView):
                         return redirect('core:home')
 
                     else:
-                        messages.error(request, _("The entered code does not match!!!"))
+                        messages.error(request, _("The entered code does not match!!!"), extra_tags="danger")
                 else:
-                    messages.error(request, _("The OTP code has expired!!!"))
+                    messages.error(request, _("The OTP code has expired!!!"), extra_tags="danger")
+                    return redirect('users:email')
             else:
-                messages.error(request, _("Email didn't save in session!"))
+                messages.error(request, _("Email didn't save in session!"), extra_tags="danger")
         else:
-            messages.error(request, _("Sent OTP code can't Empty!"))
+            messages.error(request, _("Sent OTP code can't Empty!"), extra_tags="danger")
         
         return self.render_to_response(self.get_context_data())
 
