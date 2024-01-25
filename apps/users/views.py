@@ -141,23 +141,35 @@ class SignupView(CreateView):
     model = User
     form_class = SignupForm
     template_name = 'signup.html'
-    success_url = 'core:home'
+    success_url = reverse_lazy('core:home')
 
-    def get_success_url(self):
-        username = self.request.POST.get("username")
-
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = form.save()
+        
         messages.success(
             self.request,
             _(
-                f"Signup Successfuly. " \
-                f"Welcome {username}."
+                f"Signup Successfuly. Welcome {user.username}."
             )
         )
-
-        user = self.model.objects.get(username=self.form_class.clean_username)
-        login(self.request, user)
         
-        return redirect('core:home')
+        return response
+    
+    # def get_success_url(self):
+    #     username = self.request.POST.get("username")
+
+    #     messages.success(
+    #         self.request,
+    #         _(
+    #             f"Signup Successfuly. Welcome {username}."
+    #         )
+    #     )
+
+    #     user = self.model.objects.get(username=username)
+    #     login(self.request, user)
+        
+    #     return redirect()
     
 
 """\________________________[LOGOUT]________________________/"""
