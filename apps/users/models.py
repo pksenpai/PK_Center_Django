@@ -12,9 +12,12 @@ from django.core.validators import RegexValidator
 class User(AbstractUser, LogicalBaseModel):
     
     """\_______________[MAIN]_______________/"""
+    is_active = models.BooleanField(
+        _("active"),
+        default=False,
+    )
     
     email = models.EmailField(
-        null         = True,
         unique       = True,
         verbose_name = _("Email Address")
     )
@@ -39,18 +42,17 @@ class User(AbstractUser, LogicalBaseModel):
     )
 
     """\_______________[ROLE]_______________/"""
-
     is_seller = models.BooleanField(
         default      = False,
         verbose_name = _('is seller?')
     )
-
+    
+    """\_______________[METHOD]_______________/"""
     class Meta:
         verbose_name_plural = _("Users")
         verbose_name        = _("User")
         
     """\_______________[METHOD]_______________/"""
-    
     def __str__(self):
         return self.username
 

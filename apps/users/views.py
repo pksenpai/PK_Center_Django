@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model; User = get_user_model()
-from .forms import EmailCheckForm
+from .forms import EmailCheckForm, SignupForm
 from .backends import CustomModelBackend as CMB  
 from .utils import store_otp, check_otp
 from .tasks import send_otp_by_email
@@ -9,7 +9,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormView
 
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import UserCreationForm
+# from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LogoutView, LoginView
 from django.contrib.auth.decorators import login_required
 
@@ -30,6 +30,17 @@ class UsernameLoginView(LoginView):
     template_name = 'username_login.html'
     redirect_authenticated_user = True
     
+    def form_valid(self, form):
+        if form.get_user().is_active:
+            return super().form_valid(form)
+        else:
+            messages.error(
+                self.request,
+                "Your account is not active!",
+                extra_tags="danger"
+            )
+            return HttpResponseRedirect('users:login')
+        
     def get_success_url(self):
         username = self.request.POST.get("username")
         first_name = User.objects.get(username=username).first_name
@@ -58,21 +69,24 @@ class EmailLoginView(FormView):
             if form.is_valid():
                 user = CMB().authenticate(request=request, email=user_email)
                 if user:
-                    otp_code = store_otp(user_email)
-                    status = send_otp_by_email(user_email, otp_code) # delay
-                    
-                    if status:
-                        request.session['email'] = user_email
-                        messages.success(
-                            self.request,
-                            _(
-                                f"Code sent Successfuly. " \
-                                f"Check {user_email}."
+                    if user.is_active == True:
+                        otp_code = store_otp(user_email)
+                        status = send_otp_by_email(user_email, otp_code) # delay
+                        
+                        if status:
+                            request.session['email'] = user_email
+                            messages.success(
+                                self.request,
+                                _(
+                                    f"Code sent Successfuly. " \
+                                    f"Check {user_email}."
+                                )
                             )
-                        )
-                        return redirect("users:otp")
+                            return redirect("users:otp")
+                        else:
+                            messages.error(request, _("Opss! some truble happend! please try again!"), extra_tags="danger")
                     else:
-                        messages.error(request, _("Opss! some truble happend! please try again!"), extra_tags="danger")
+                        messages.error(request, _("your account is not active!"), extra_tags="danger")
                 else:
                     messages.error(request, _("you didn't define email or you need to signup!"), extra_tags="danger")
             else:
@@ -125,8 +139,9 @@ class OTPView(TemplateView):
 """\________________________[SIGNUP]________________________/"""
 class SignupView(CreateView):
     model = User
-    form_class = UserCreationForm
+    form_class = SignupForm
     template_name = 'signup.html'
+    success_url = 'core:home'
 
     def get_success_url(self):
         username = self.request.POST.get("username")
@@ -138,10 +153,11 @@ class SignupView(CreateView):
                 f"Welcome {username}."
             )
         )
-        next_url = self.request.GET.get('next')
-        if next_url:
-            return next_url
-        return reverse_lazy('core:home') 
+
+        user = self.model.objects.get(username=self.form_class.clean_username)
+        login(self.request, user)
+        
+        return redirect('core:home')
     
 
 """\________________________[LOGOUT]________________________/"""
