@@ -1,5 +1,5 @@
 from django.db import models
-from apps.core.models import ItemImageBaseModel, StatusMixin, Category
+from apps.core.models import LogicalBaseModel, StatusMixin, Category
 from django.contrib.auth import get_user_model; User = get_user_model()
 from apps.sellers.models import Seller
 
@@ -13,13 +13,13 @@ from django.core.cache import cache
 from django.utils.functional import cached_property
 
 
-class Item(ItemImageBaseModel, StatusMixin):
+class Item(LogicalBaseModel, StatusMixin):
     """\_______________[MAIN]_______________/"""
     name        = models.CharField(max_length=300,verbose_name=_("Name"))
     brand       = models.CharField(max_length=200,verbose_name=_("Brand"))
     description = models.TextField(verbose_name=_("Description"))
     price       = models.DecimalField(max_digits=30,decimal_places=2,verbose_name=_("Price"))
-
+    orginality  = models.BooleanField(default=False)
     # Total count calculate with sum of every SellerItem counts!
 
     """\_____________[RELATIONS]_____________/"""
@@ -56,6 +56,11 @@ class Item(ItemImageBaseModel, StatusMixin):
         verbose_name        = _("Item")
         ordering            =  ("?",)
         
+    def get_first_image(self):
+        if first_image := self.image.first():
+            return first_image
+        return None
+    
     def get_absolute_url(self):
         return reverse("items:item_details", args=[self.id])
 
@@ -63,18 +68,37 @@ class Item(ItemImageBaseModel, StatusMixin):
         return self.name
 
 
+class ItemImage(models.Model):
+    """ high size images for Item & Post media """
+    src  = models.ImageField(upload_to='images/item/')
+    item = models.ForeignKey(
+        to           = Item,
+        on_delete    = models.CASCADE,
+        verbose_name = _("image item"),
+    )
+    
+
+STAR_CHOICES = [
+    (0, "0"),
+    (1, "1"),
+    (2, "2"),
+    (3, "3"),
+    (4, "4"),
+    (5, "5"),
+]
+
 class Rating(models.Model):
-    class StarChoices(models.TextChoices):
-        ZERO_STAR  = 0, _("0")
-        ONE_STAR   = 1, _("1")
-        TWO_STAR   = 2, _("two")
-        THREE_STAR = 3, _("3")
-        FOUR_STAR  = 4, _("4")
-        FIVE_STAR  = 5, _("5")
+    # class StarChoices(models.TextChoices):
+    #     ZERO_STAR  = 0, _("0")
+    #     ONE_STAR   = 1, _("1")
+    #     TWO_STAR   = 2, _("two")
+    #     THREE_STAR = 3, _("3")
+    #     FOUR_STAR  = 4, _("4")
+    #     FIVE_STAR  = 5, _("5")
 
     """\_______________[MAIN]_______________/"""
     score = models.IntegerField(
-        choices    = StarChoices,
+        choices    = STAR_CHOICES,
         # editable   = False,
         validators = [
             MinValueValidator(0),

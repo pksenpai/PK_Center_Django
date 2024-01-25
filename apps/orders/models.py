@@ -17,21 +17,32 @@ from django.core.cache import cache
 from django.utils.functional import cached_property
 
 
+STATUS_CHOICES = [
+    ("ICD", "In Card"),
+    ("IOR", "In Order"),
+    ("IPD", "Is Paid"),
+    ("IPS", "In Process"),
+    ("IPN", "In Preparation"),
+    ("SDG", "Sending"),
+    ("DVD", "Delivered"),
+    ("IDE", "Done"),
+]
+
 class Order(TimeStampBaseModel, LogicalBaseModel, StatusMixin):
-    class StatusChoices(models.TextChoices):
-        IN_CARD        = "ICD", _("In Card")
-        IN_ORDER       = "IOR", _("In Order")
-        IS_PAID        = "IPD", _("Is Paid")
-        IN_PROCESS     = "IPS", _("In Process")
-        IN_PREPARATION = "IPN", _("In Preparation")
-        SENDING        = "SDG", _("Sending")
-        DELIVERED      = "DVD", _("Delivered")
-        IS_DONE        = "IDE", _("Done")
+    # class StatusChoices(models.TextChoices):
+    #     IN_CARD        = "ICD", _("In Card")
+    #     IN_ORDER       = "IOR", _("In Order")
+    #     IS_PAID        = "IPD", _("Is Paid")
+    #     IN_PROCESS     = "IPS", _("In Process")
+    #     IN_PREPARATION = "IPN", _("In Preparation")
+    #     SENDING        = "SDG", _("Sending")
+    #     DELIVERED      = "DVD", _("Delivered")
+    #     IS_DONE        = "IDE", _("Done")
     
     """\_______________[MAIN]_______________/"""
     status = models.CharField(
         max_length=3, 
-        choices=StatusChoices,
+        choices=STATUS_CHOICES,
         default="In Card",
         verbose_name = _("Order Item"),	
     )
@@ -83,15 +94,9 @@ class OrderItem(models.Model):
 
 
 class Discount(TimeStampBaseModel):
-    class ModeChoices(models.TextChoices):
-        PERCENT_MODE = "PM", _("Percent Mode")
-        CASH_MODE    = "CM", _("Cash Mode")
-
     """\_______________[MAIN]_______________/"""
-    mode = models.CharField(
-        max_length=2,
-        choices=ModeChoices, 
-        default="Percent Mode"
+    percent_mode = models.BooleanField(
+        default=True,
     )
 
     percent = models.IntegerField(

@@ -68,7 +68,7 @@ class StatusMixin:
 
 class ProfileImageBaseModel(LogicalBaseModel, StatusMixin):
     """ low size images for User & Seller profiles """
-    src = models.ImageField(upload_to='images/profile/', default='default.png')
+    src = models.ImageField(upload_to='images/profile/', default='images/profile/default.png')
     alt = models.CharField(max_length=255)
         
     class Meta:
@@ -82,17 +82,10 @@ class ProfileImageBaseModel(LogicalBaseModel, StatusMixin):
                 raise ValidationError({_("image"): _("The image must be square :(")})
 
 
-class ItemImageBaseModel(LogicalBaseModel, StatusMixin):
-    """ high size images for Item & Post media """
-    src = models.ImageField(upload_to='images/item/')
-    alt = models.CharField(max_length=255)
-    
-    class Meta:
-        abstract = True
+
  
     
 """\__________________[[Shared Models]]__________________/"""
-
 class Category(models.Model):
     """\_______________[MAIN]_______________/"""
     name = models.CharField(max_length=150, unique=True, verbose_name=_("Name"),)
@@ -162,17 +155,26 @@ class OrderedByOldestComment(Comment):
         proxy = True
 
     
+REPORT_CHOICES = [
+    ("IC", "Inappropriate content"),
+    ("IP", "Used my intellectual property without authorization"),
+    ("MP", "Used my material property without authorization"),
+    ("AC", "Annoying content"),
+    ("PS", "Posting spam"),
+    ("PE", "Pretending to be someone else"),
+]
+
 class Report(TimeStampBaseModel):
-    class ReaportChoices(models.TextChoices):
-        INAPPROPRIATE_CONTENT = "IC", _("Inappropriate content")
-        INTELLECTUAL_PROPERTY = "IP", _("Used my intellectual property without authorization")
-        MATERIAL_PROPERTY     = "MP", _("Used my material property without authorization")
-        ANNOYING_CONTENT      = "AC", _("Annoying content")
-        POSTING_SPAM          = "PS", _("Posting spam")
-        PRETENDING            = "PE", _("Pretending to be someone else")
+    # class ReportChoices(models.TextChoices):
+    #     INAPPROPRIATE_CONTENT = "IC", _("Inappropriate content")
+    #     INTELLECTUAL_PROPERTY = "IP", _("Used my intellectual property without authorization")
+    #     MATERIAL_PROPERTY     = "MP", _("Used my material property without authorization")
+    #     ANNOYING_CONTENT      = "AC", _("Annoying content")
+    #     POSTING_SPAM          = "PS", _("Posting spam")
+    #     PRETENDING            = "PE", _("Pretending to be someone else")
     
     """\_______________[MAIN]_______________/"""
-    reason      = models.CharField(max_length=3, choices=ReaportChoices, verbose_name=_("Reason"),)
+    reason      = models.CharField(max_length=3, choices=REPORT_CHOICES, verbose_name=_("Reason"),)
     description = models.CharField(max_length=350, blank=True, null=True, verbose_name=_("Description"),)
     approved    = models.BooleanField(default=False, verbose_name=_("Approved"),)
 

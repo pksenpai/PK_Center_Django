@@ -53,6 +53,24 @@ class User(AbstractUser, LogicalBaseModel):
         verbose_name        = _("User")
         
     """\_______________[METHOD]_______________/"""
+    # def save(self, args, **kwargs):
+    #     super().save(args, *kwargs)
+    #     if self.is_staff and self.is_active:
+    #         group, created = Group.objects.get_or_create(name="Emploee")
+    #         if created:
+    #             perm = Permission.objects.filter(codename__in=[
+    #                 'view_user',
+    #                 'view_address',
+    #                 'view_product',
+    #                 'view_category',
+    #                 'view_order',
+    #                 'view_comment',
+    #                 'view_report',
+    #                 'view_seller',
+    #             ])
+    #             group.permissions.add(perm)
+    #         self.groups.add(group)
+            
     def __str__(self):
         return self.username
 
