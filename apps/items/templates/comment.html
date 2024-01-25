@@ -1,0 +1,13 @@
+<li style="margin-bottom: 20px;">
+    <span style="font-weight: bold;">{{ comment.author }}:</span> {{ comment.body }}
+    {% if comment.replies.count > 0 %}
+      <ul>
+        {% for reply in comment.replies.all %}
+          <li>
+            {% include 'comment.html' with comment=reply %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </li>
+  
