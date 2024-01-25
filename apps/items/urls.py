@@ -4,6 +4,8 @@ from .views import *
 
 app_name = "items"
 urlpatterns = [
-    path('items-list/', ItemsList.as_view(), name="items_list"),
-    path('item-details/<int:pid>/', ItemDetails.as_view(), name="item_details"),
+    path('list/', ItemsListView.as_view(), name="list"),
+    path('details/<int:pk>/', ItemDetailsView.as_view(), name="details"),
+    path('category/<int:pk>/', CategoryDetailView.as_view(), name="category"),
+    path('seller/<int:pk>/', SellerDetailView.as_view(), name="seller"),
 ]
