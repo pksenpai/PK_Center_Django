@@ -41,7 +41,7 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'password1', 'password2', 'is_staff', 'is_active', 'is_seller')}
+            'fields': ('username', 'email', 'password1', 'password2', 'is_staff', 'is_active', 'is_seller')}
          ),
     )
 
@@ -49,6 +49,11 @@ class CustomUserAdmin(UserAdmin):
         if not obj:
             return list()
         return super(CustomUserAdmin, self).get_inline_instances(request, obj)
+    
+    # def get_queryset(self, request):
+    #     if request.user.is_superuser:
+    #         return self.model.objects.archive()
+    #     return super().get_queryset(request)
 
 admin.site.register(User, CustomUserAdmin)
 
