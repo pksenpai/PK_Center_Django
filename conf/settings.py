@@ -45,6 +45,8 @@ MY_APPS = [
 
 EXTRA_APPS_suffix = [
     'django_extensions',
+    'rest_framework',
+    'django_celery_beat',
 ]
 
 INSTALLED_APPS = EXTRA_APPS_prefix + DJANGO_APPS + MY_APPS + EXTRA_APPS_suffix
@@ -76,6 +78,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'apps.core.contexts.seller',
                 'apps.core.contexts.category',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
