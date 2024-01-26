@@ -102,34 +102,45 @@
             <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         
-        <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
-          <div class="offcanvas-header">                    
-              <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
+        <div class="flex-shrink-0 p-3" style="width: 280px;">
+          <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+            <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-5 fw-bold size-50">find by</span>
+          </a>
+        
+          <ul class="list-unstyled fw-normal pb-1 small">
+            <li class="mb-1 text-white">
+              <button class="text-white btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#category-collapse" aria-expanded="false">
+                Categories
+              </button>
+              <div class="collapse" id="category-collapse" style="">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  {% for category in categories %}
+                  <li><a href="{% url "items:category" category.id %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{ category.name }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </li>
+            <li class="border-top my-3"></li>
+            <li class="mb-1 text-white">
+              <button class="text-white btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#seller-collapse" aria-expanded="false">
+                Sellers
+              </button>
+              <div class="collapse" id="seller-collapse" style="">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  {% for seller in sellers %}
+                  <li><a href="{% url "items:seller" seller.id %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{ seller.name }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </li>
+            <li class="border-top my-3"></li>
+          </ul>
+        </div>
           
           <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
             <nav>
-              <ul>
-                <li>
-                    <a href="login.html">Login Form</a>
-                </li>
 
-                <li>
-                    <a href="register.html">Create an account</a>
-                </li>
-
-                <li>
-                    <a href="password-reset.html">Password Reset</a>
-                </li>
-
-                <li>
-                    <a href="404.html">404 Page</a>
-                </li>
-
-                <li>
-                    <a href="contact.html">Contact Form</a>
-                </li>
-              </ul>
             </nav>
           </div>
         </div>
