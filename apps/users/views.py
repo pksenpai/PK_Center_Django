@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model; User = get_user_model()
 from .forms import EmailCheckForm, SignupForm
 from .backends import CustomModelBackend as CMB  
 from .utils import store_otp, check_otp
-from .tasks import send_otp_by_email
+from .tasks import send_otp_by_email, send_verify_link
 
 from django.views import View
 from django.views.generic import TemplateView
@@ -145,31 +145,34 @@ class SignupView(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        user = form.save()
         
-        messages.success(
-            self.request,
-            _(
-                f"Signup Successfuly. Welcome {user.username}."
+        url = reverse_lazy('users:verify', kwargs={'user_id': self.object.id})
+        email = self.object.email
+        
+        status = send_verify_link(email, url)
+        if status:
+            messages.success(
+                self.request,
+                (
+                    f"verfiy link sent Successfuly. " \
+                    f"Check {email}."
+                )
             )
-        )
+        else:
+            messages.error(self.request, _("Opss! some truble happend! please try again!"))
         
         return response
     
-    # def get_success_url(self):
-    #     username = self.request.POST.get("username")
 
-    #     messages.success(
-    #         self.request,
-    #         _(
-    #             f"Signup Successfuly. Welcome {username}."
-    #         )
-    #     )
-
-    #     user = self.model.objects.get(username=username)
-    #     login(self.request, user)
-        
-    #     return redirect()
+class VerifyUserView(TemplateView):
+    template_name = 'verification.html'
+    
+    def get(self, request, user_id, kwargs):
+        user = User.objects.get(id=user_id)
+        user.is_active = True
+        user.save()
+        context = self.get_context_data(kwargs)
+        return self.render_to_response(context)
     
 
 """\________________________[LOGOUT]________________________/"""
