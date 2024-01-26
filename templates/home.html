@@ -70,14 +70,15 @@
 
 
         <div class="mt-5 align-items-center" id="hero-slides">
-            <h1 style="text-align: center">Top Sellers</h1>
+            <h1 style="text-align: center">Top of anySellers</h1>
             <div id="slides" class="row bg-black">
                 {% for seller in sellers %}
                 <div class="slide item m-2 col-3" style="background-image: url({{ seller.src.url }}) ">
                     <div class="number">{{ seller.rank }}</div>
                     <div class="body">
                     <div class="location" style="font-size: 40px;">{{ seller.category }}</div>
-                    <div class="headline">{{ seller.name }}</div><a href="https://unsplash.com/photos/EYmhcdGuYmI" target="_blank">
+                    <div class="headline">{{ seller.name.title }}</div>
+                    <a href="{% url "sellers:profile" seller.id %}" target="_blank">
                         <div class="link">View Seller Profile</div></a>
                     </div>
                 </div>

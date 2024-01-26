@@ -74,12 +74,12 @@ class ProfileImageBaseModel(LogicalBaseModel, StatusMixin):
     class Meta:
         abstract = True
 
-    def clean(self): # just for profiles image [o]
-        super().clean()
-        if self.src:
-            width, height = self.src.width, self.src.height
-            if width != height:
-                raise ValidationError({_("image"): _("The image must be square :(")})
+    # def clean(self): # just for profiles image [o]
+    #     super().clean()
+    #     if self.src:
+    #         width, height = self.src.width, self.src.height
+    #         if width != height:
+    #             raise ValidationError({_("image"): _("The image must be square :(")})
 
 
 
