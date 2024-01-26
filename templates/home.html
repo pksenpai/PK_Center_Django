@@ -5,6 +5,7 @@
     <link href="{% static 'core/css/top_sellers.css' %}" rel="stylesheet">
     <link href="{% static 'core/css/ai_canvas.css' %}" rel="stylesheet">
     <link href="{% static 'core/css/beauty_mouse.css' %}" rel="stylesheet">
+    <link href="{% static 'core/css/show.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block title %}PK Center | Home{% endblock %}
@@ -43,74 +44,44 @@
                 </video>
             </div>
         </section>
-    
-        <div class="mt-5 align-items-center" id="hero-slides">
+        
+        <div>
+            <h1 style="text-align: center">anyone with anystyle</h1>
 
+            <div class="scroller" data-speed="fast">
+                <ul class="tag-list scroller__inner">
+                    {% for category in categories %}
+                        <li>{{ category.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="scroller" data-direction="right" data-speed="slow">
+                <div class="scroller__inner">
+                    <img src="https://i.pravatar.cc/150?img=1" alt="" />
+                    <img src="https://i.pravatar.cc/150?img=2" alt="" />
+                    <img src="https://i.pravatar.cc/150?img=3" alt="" />
+                    <img src="https://i.pravatar.cc/150?img=4" alt="" />
+                    <img src="https://i.pravatar.cc/150?img=5" alt="" />
+                    <img src="https://i.pravatar.cc/150?img=6" alt="" />
+                </div>
+            </div>
+        </div>
+
+
+        <div class="mt-5 align-items-center" id="hero-slides">
+            <h1 style="text-align: center">Top Sellers</h1>
             <div id="slides" class="row bg-black">
-                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/ef5af971-fc46-4ee1-a589-980346478696_opt.png)">
-                    <div class="number">01</div>
+                {% for seller in sellers %}
+                <div class="slide item m-2 col-3" style="background-image: url({{ seller.src.url }}) ">
+                    <div class="number">{{ seller.rank }}</div>
                     <div class="body">
-                    <div class="location">Shibuya, Japan</div>
-                    <div class="headline">Photo by Benjamin Hung</div><a href="https://unsplash.com/photos/EYmhcdGuYmI" target="_blank">
-                        <div class="link">View on Unsplash</div></a>
+                    <div class="location" style="font-size: 40px;">{{ seller.category }}</div>
+                    <div class="headline">{{ seller.name }}</div><a href="https://unsplash.com/photos/EYmhcdGuYmI" target="_blank">
+                        <div class="link">View Seller Profile</div></a>
                     </div>
                 </div>
-                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/522d6a86-0dcf-4554-8b22-7655d65a1f66_opt.png)">
-                    <div class="number">02</div>
-                    <div class="body">
-                    <div class="location">Mong Kok, Hong Kong</div>
-                    <div class="headline">Photo by Ryan Tang</div><a href="https://unsplash.com/photos/ANJHXftvvJ8" target="_blank">
-                        <div class="link">View on Unsplash</div></a>
-                    </div>
-                </div>
-                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/9b5f71cb-34a3-4fb4-a3a6-0ce9557c0acd_opt.png)">
-                    <div class="number">03</div>
-                    <div class="body">
-                    <div class="location">Incheon, South Korea</div>
-                    <div class="headline">Photo by Steve Roe</div><a href="https://unsplash.com/photos/73aocAAt7rs" target="_blank">
-                        <div class="link">View on Unsplash</div></a>
-                    </div>
-                </div>
-                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/10cfd52d-e217-41e9-bb8b-ad43384a5e63_opt.png)">
-                    <div class="number">04</div>
-                    <div class="body">
-                    <div class="location">Wan Chai, Hong Kong</div>
-                    <div class="headline">Photo by Sean Foley</div><a href="https://unsplash.com/photos/aPDCEoW7B78" target="_blank">
-                        <div class="link">View on Unsplash</div></a>
-                    </div>
-                </div>
-                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/b9669f2a-17fc-47dc-b6b5-3f863004efa8_opt.png)">
-                    <div class="number">05</div>
-                    <div class="body">
-                    <div class="location">Shibuya-ku, Japan</div>
-                    <div class="headline">Photo by Alex Knight</div><a href="https://unsplash.com/photos/Akz00I_GGjU" target="_blank">
-                        <div class="link">View on Unsplash</div></a>
-                    </div>
-                </div>
-                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/31979576-5060-4513-aae2-b379b87e7fe6_opt.png)">
-                    <div class="number">06</div>
-                    <div class="body">
-                    <div class="location">Tokyo, Japan</div>
-                    <div class="headline">Photo by Benjamin Hung</div><a href="https://unsplash.com/photos/pTn26knnKVw" target="_blank">
-                        <div class="link">View on Unsplash</div></a>
-                    </div>
-                </div>
-                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/429b83b8-1ad4-4450-b0de-0a0c1073cf1e_opt.jpg)">
-                    <div class="number">07</div>
-                    <div class="body">
-                    <div class="location">Taipei City, Taiwan</div>
-                    <div class="headline">Photo by Jesus In Taiwan</div><a href="https://unsplash.com/photos/v63B_MUiFw8" target="_blank">
-                        <div class="link">View on Unsplash</div></a>
-                    </div>
-                </div>
-                <div class="slide item m-2 col-3" style="background-image: url(https://alca.tv/static/u/429b83b8-1ad4-4450-b0de-0a0c1073cf1e_opt.jpg)">
-                    <div class="number">08</div>
-                    <div class="body">
-                    <div class="location">Taipei City, Taiwan</div>
-                    <div class="headline">Photo by Jesus In Taiwan</div><a href="https://unsplash.com/photos/v63B_MUiFw8" target="_blank">
-                        <div class="link">View on Unsplash</div></a>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
         <div id="particles-js">
@@ -120,6 +91,7 @@
     {% endblock %}
     ai_canvas
 {% block js %}
+    <script src="{% static 'core/js/show.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="{% static 'core/js/ai_canvas.js' %}"></script>
