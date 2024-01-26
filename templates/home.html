@@ -20,7 +20,7 @@
 
                         
                       <h1 class="text-white mt-2 mb-4 pb-2">
-                            You can find anything from anywhere !
+                            You can find <a href="{% url "items:list" %}">anything</a> from <a href="{% url "items:list" %}">anywhere</a> !
                             <hr class="" size="7" width="70%" style="background-color: aliceblue; opacity: 70%;"> 
                             <small> by 
                                 <a rel="nofollow" target="_blank" href="https://github.com/pksenpai">PKPY</a>
@@ -45,32 +45,33 @@
             </div>
         </section>
         
-        <div>
-            <h1 style="text-align: center">anyone with anystyle</h1>
+        <div class="border-top">
+            <h1 class="ps-4" style="text-align: center; font-size: 50px;">anyone with anystyle</h1>
+            <div class="ms-5 ps-5">
+                <div class="scroller" data-speed="fast">
+                    <ul class="tag-list scroller__inner">
+                        {% for category in categories %}
+                            <li>{{ category.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
 
-            <div class="scroller" data-speed="fast">
-                <ul class="tag-list scroller__inner">
-                    {% for category in categories %}
-                        <li>{{ category.name }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="scroller" data-direction="right" data-speed="slow">
-                <div class="scroller__inner">
-                    <img src="https://i.pravatar.cc/150?img=1" alt="" />
-                    <img src="https://i.pravatar.cc/150?img=2" alt="" />
-                    <img src="https://i.pravatar.cc/150?img=3" alt="" />
-                    <img src="https://i.pravatar.cc/150?img=4" alt="" />
-                    <img src="https://i.pravatar.cc/150?img=5" alt="" />
-                    <img src="https://i.pravatar.cc/150?img=6" alt="" />
+                <div class="scroller" data-direction="right" data-speed="slow">
+                    <div class="scroller__inner">
+                        <img src="https://i.pravatar.cc/150?img=1" alt="" />
+                        <img src="https://i.pravatar.cc/150?img=2" alt="" />
+                        <img src="https://i.pravatar.cc/150?img=3" alt="" />
+                        <img src="https://i.pravatar.cc/150?img=4" alt="" />
+                        <img src="https://i.pravatar.cc/150?img=5" alt="" />
+                        <img src="https://i.pravatar.cc/150?img=6" alt="" />
+                    </div>
                 </div>
             </div>
         </div>
 
 
-        <div class="mt-5 align-items-center" id="hero-slides">
-            <h1 style="text-align: center">Top of anySellers</h1>
+        <div class="mt-5 align-items-center border-top" id="hero-slides">
+            <h1 class="mb-5 mt-3" style="text-align: end; font-size: 50px;">Top of Sellers</h1>
             <div id="slides" class="row bg-black">
                 {% for seller in sellers %}
                 <div class="slide item m-2 col-3" style="background-image: url({{ seller.src.url }}) ">
@@ -83,12 +84,26 @@
                     </div>
                 </div>
                 {% endfor %}
+                <footer style="text-align: start;" class="d-flex flex-wrap justify-content-between align-items-center py-2 my-4 border-top">
+                  <p class="col-md-4 mb-0 text-white">© 2023 | Dev by PKPY</p>
+              
+                  <ul class="nav col-lg-auto ms-lg-auto me-3">
+                    <li><a href="#" class="nav-link px-2 text-white">HOME</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">Dashboard</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">Top Sellers</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">Popular Posts</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">Recommended Products</a></li>
+                    </li>
+                  </ul>
+                </footer>
             </div>
         </div>
         <div id="particles-js">
             <canvas class="particles-js-canvas-el" width="300" height="688" style="width: 100%; height: 100%;"></canvas>
         </div>
+        
     </main>
+    
     {% endblock %}
     ai_canvas
 {% block js %}
