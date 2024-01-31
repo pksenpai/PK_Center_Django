@@ -43,7 +43,7 @@ class UsernameLoginView(LoginView):
         
     def get_success_url(self):
         username = self.request.POST.get("username")
-        first_name = User.objects.get(username=username).first_name
+        first_name = User.objects.get(username=username)
             
         messages.success(
             self.request,
@@ -167,11 +167,11 @@ class SignupView(CreateView):
 class VerifyUserView(TemplateView):
     template_name = 'verification.html'
     
-    def get(self, request, user_id, kwargs):
+    def get(self, request, user_id, **kwargs):
         user = User.objects.get(id=user_id)
         user.is_active = True
         user.save()
-        context = self.get_context_data(kwargs)
+        context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
     
 

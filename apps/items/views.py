@@ -15,7 +15,7 @@ class ItemsListView(ListView):
     model = Item
     template_name = "items_list.html"
     context_object_name = "items"
-    paginate_by = 10
+    paginate_by = 5
     # queryset = Item.objects.prefetch_related('images')
     # print(queryset)
 

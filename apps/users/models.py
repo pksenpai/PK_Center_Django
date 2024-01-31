@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from apps.core.models import ProfileImageBaseModel, LogicalBaseModel, StatusMixin
-
+from django.contrib.auth.models import Group, Permission
 from .managers import ProfileManager
 
 from django.utils.translation import gettext_lazy as _
@@ -14,6 +14,21 @@ class User(AbstractUser, LogicalBaseModel):
     """\_______________[MAIN]_______________/"""
     is_active = models.BooleanField(
         _("active"),
+        default=False,
+    )
+    
+    # is_manager = models.BooleanField(
+    #     _("manager"),
+    #     default=False,
+    # )
+    
+    is_supervisor = models.BooleanField(
+        _("supervisor"),
+        default=False,
+    )
+    
+    is_operator = models.BooleanField(
+        _("operator"),
         default=False,
     )
     
@@ -53,38 +68,33 @@ class User(AbstractUser, LogicalBaseModel):
         verbose_name        = _("User")
         
     """\_______________[METHOD]_______________/"""
-    def save(self, args, **kwargs):
-        super().save(args, *kwargs)
-        if self.is_staff and self.is_active:
-            user = self.__class__.objects.get(username=self.username)
-            group, created = Group.objects.get_or_create(name="Emploee")
-            if created:
-                perm = Permission.objects.filter(codename__in=[
-                    'view_user',
-                    'view_address',
-                    'view_product',
-                    'view_category',
-                    'view_order',
-                    'view_comment',
-                    'view_report',
-                    'view_seller',
-                ])
-                group.permissions.add(perm)
-            group.add(user)
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)        
         
-        if self.is_seller:
-            user = self.__class__.objects.get(username=self.username)
-            group, created = Group.objects.get_or_create(name="Sellers")
+        if self.is_staff and self.is_seller:
+            group, created = Group.objects.get_or_create(name="Seller")
             if created:
-                perm = Permission.objects.filter(codename__in=[
-                    'add_product',
-                    'view_order',
-                    'view_comment',
-                ])
-                group.permissions.add(perm)
-            group.add(user)
-            
-        return super().save(args, *kwargs)
+                perms = Permission.objects.filter(
+                    codename__in=[
+                        'view_item',
+                        'add_item',
+                        'change_item',
+                        'delete_item',
+
+                        'view_discount',
+                        'add_discount',
+                        'change_discount',
+                        'delete_discount',
+
+                        'view_order',
+                    ]
+                )
+                group.permissions.add(*perms)
+            self.groups.add(group)
+        
+        # elif self.is_staff and self.is_superuser:...
+        # elif self.is_staff and self.is_operator:...
+        
             
     def __str__(self):
         return self.username
