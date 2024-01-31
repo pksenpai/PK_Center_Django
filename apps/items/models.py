@@ -76,6 +76,11 @@ class ItemImage(models.Model):
         on_delete    = models.CASCADE,
         verbose_name = _("image item"),
     )
+
+class AttributeKey(models.Model):
+    size=...
+    color=...
+    model=...
     
 
 STAR_CHOICES = [
@@ -147,7 +152,7 @@ class SellerItem(models.Model):
         verbose_name        = _("Seller Item")
         
     def __str__(self):
-        return str(seller)
+        return str(self.seller)
             
 
 class Favorite(models.Model):
