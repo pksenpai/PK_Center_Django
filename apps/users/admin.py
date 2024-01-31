@@ -4,22 +4,22 @@ from django.contrib.auth.admin import UserAdmin
 from .models import Profile, Address, User
 
 from django.utils.translation import gettext_lazy as _
-# from .forms import CustomUserCreationForm, CustomUserChangeForm
 
-@admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin): ...
-# class ProfileInline(admin.StackedInline):
-#     model = Profile
-#     can_delete=False
-#     verbose_plural_name="User Profile"
-#     fk_name = 'user'  
 
-class AddressInline(admin.StackedInline):
+admin.site.register(Profile)
+admin.site.register(Address)
+
+class UserProfileInline(admin.TabularInline):
+    model = Profile
+    readonly_fields = ('id',)
+    extra = 1
+
+class UserAddressInline(admin.TabularInline):
     model = Address
-    can_delete=True
-    verbose_plural_name="User Address"
-    fk_name = 'user'
+    readonly_fields = ('id',)
+    extra = 1
 
+@admin.register(User)
 class CustomUserAdmin(UserAdmin):
     # add_form = CustomUserCreationForm
     # form = CustomUserChangeForm
@@ -27,7 +27,6 @@ class CustomUserAdmin(UserAdmin):
     list_display_links = ['username']
     search_fields = ('username',)
     ordering = ('username',)
-    # inlines = (ProfileInline, AddressInline)
     list_display = ('username', 'email', 'is_active', 'is_seller', 'is_staff', 'is_superuser')
     list_filter = ('username', 'email', 'is_active', 'is_seller', 'is_staff', 'is_superuser')
     fieldsets = (
@@ -44,17 +43,14 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('username', 'email', 'password1', 'password2', 'is_staff', 'is_active', 'is_seller')}
          ),
     )
-
-    def get_inline_instances(self, request, obj=None):
-        if not obj:
-            return list()
-        return super(CustomUserAdmin, self).get_inline_instances(request, obj)
+    inlines = [
+        UserProfileInline,
+        UserAddressInline,
+    ]
     
     # def get_queryset(self, request):
     #     if request.user.is_superuser:
     #         return self.model.objects.archive()
     #     return super().get_queryset(request)
-
-admin.site.register(User, CustomUserAdmin)
 
 
