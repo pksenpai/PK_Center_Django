@@ -115,8 +115,15 @@
               </button>
               <div class="collapse" id="category-collapse" style="">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  {% comment %} {% for category in categories %}
+                    {% include 'categories.html' with category=category %}
+                  {% endfor %} {% endcomment %}
                   {% for category in categories %}
+                  {% if not category.sub %}
                   <li><a href="{% url "items:category" category.id %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{ category.name }}</a></li>
+                  {% else %}
+                  <li class="ms-2"><a href="{% url "items:category" category.id %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{ category.name }}</a></li>
+                  {% endif %}
                   {% endfor %}
                 </ul>
               </div>
@@ -128,9 +135,11 @@
               </button>
               <div class="collapse" id="seller-collapse" style="">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                  {% for seller in sellers %}
+
+
+                  {% comment %} {% for seller in sellers %}
                   <li><a href="{% url "items:seller" seller.id %}" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{ seller.name }}</a></li>
-                  {% endfor %}
+                  {% endfor %} {% endcomment %}
                 </ul>
               </div>
             </li>

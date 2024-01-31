@@ -47,6 +47,7 @@ EXTRA_APPS_suffix = [
     'django_extensions',
     'rest_framework',
     'django_celery_beat',
+    'ckeditor',
 ]
 
 INSTALLED_APPS = EXTRA_APPS_prefix + DJANGO_APPS + MY_APPS + EXTRA_APPS_suffix
@@ -126,6 +127,7 @@ AUTHENTICATION_BACKENDS = ("apps.users.backends.CustomModelBackend",)
 
 # mode handling
 if DEBUG:
+    STATIC_ROOT = 'static'
     BASE_URL = "*"
     
     GRAPH_MODELS ={
@@ -133,9 +135,9 @@ if DEBUG:
         'graph_models': True,
     }
     
-    STATICFILES_DIRS = [
-        BASE_DIR / 'static',
-    ]
+    # STATICFILES_DIRS = [
+    #     BASE_DIR / 'static',
+    # ]
     
     # Celery:    
     CELERY_BROKER_URL = config("CELERY_BROKER_URL_DEV")
@@ -338,6 +340,7 @@ JAZZMIN_SETTINGS = {
         "core.Report": "fa fa-ban",
         "items.Favorite": "fa fa-heart",
         "items.Item": "fa fa-cubes",
+        "items.ItemImage": "fa fa-image",
         "items.Rating": "fa fa-star",
         "items.SellerItem": "fab fa-app-store-ios",
         "orders.Discount": "fas fa-qrcode",

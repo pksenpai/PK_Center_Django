@@ -140,7 +140,7 @@ class Comment(LogicalBaseModel, StatusMixin, TimeStampBaseModel):
         verbose_name        = _("Comment")
         
     def __str__(self):
-        return str(self.author)
+        return f"{self.id}"
 
 
 class OrderedByNewestComment(Comment):

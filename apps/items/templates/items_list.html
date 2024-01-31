@@ -77,25 +77,29 @@
     </div>
     <div class="products mx-3">
       <h2>Products</h2>
-      <ul class="products-list">
-        <li class="product" v-for="(prod, ind) in products" :key="'ind-' + ind">
+      <div class="products-list row">
+        <div class="product col-6" v-for="(prod, ind) in products" :key="'ind-' + ind">
           <div class="box">
             <div class="image">
-              <img class="image" :src="prod.img" alt="image">
+              <img class="image" width="300px" height="300px" :src="prod.img" alt="image">
             </div>
             <h3 class="title">[[ prod.title ]]</h3>
             <p class="price">[[ prod.price | currency ]]</p>
             <button @click="addItem(prod)">Add to cart</button>
             <button><a :href="'/items/details/' + prod.id">more details</a></button>
           </div>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
-    <div class="pagination">
+    <div class="pagination align-items-center justify-content-center">
       <span class="step-links">
           {% if page_obj.has_previous %}
+            <button class="button-89" role="button">              
               <a href="?page=1">&laquo; first</a>
+            </button>
+            <button class="button-89" role="button">              
               <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            </button>
           {% endif %}
   
           <span class="current">
@@ -104,7 +108,10 @@
   
           {% if page_obj.has_next %}
               <a href="?page={{ page_obj.next_page_number }}">next</a>
+            </button>  
+            <button class="button-89" role="button">
               <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            </button>
           {% endif %}
       </span>
   </div>
