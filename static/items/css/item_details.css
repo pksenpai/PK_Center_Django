@@ -60,16 +60,15 @@ img {
 .planet > .planet-figure img {
   margin-bottom: -50%;
 }
-.planet > .planet-figure::after {
+/* .planet > .planet-figure::after {
   content: "";
   position: fixed;
   bottom: 0%;
   top: 0%;
   width: 100%;
-  left: 0;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 30%);
   z-index: 2;
-}
+} */
 .planet > .planet-details {
   grid-area: details;
   display: flex;

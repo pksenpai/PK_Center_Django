@@ -1,0 +1,48 @@
+<html>
+<head>
+    <link rel="stylesheet" href="image.css">
+</head>
+<body translate="no">
+    <div class="wrapper">
+  <header>
+    <h1>Product Image Gallery with Thumbnails</h1>
+    <p>Click on the thumbnail to view it larger on the right!</p>
+  </header>
+  
+  <div class="image-gallery">
+    <aside class="thumbnails">
+      <a href="#" class="thumbnail selected" data-big="http://placekitten.com/420/600">
+        <div class="thumbnail-image" style="background-image: url(http://placekitten.com/420/600)"></div>
+      </a>
+      <a href="#" class="thumbnail" data-big="http://placekitten.com/450/600">
+        <div class="thumbnail-image" style="background-image: url(http://placekitten.com/450/600)"></div>
+      </a>
+      <a href="#" class="thumbnail" data-big="http://placekitten.com/460/700">
+        <div class="thumbnail-image" style="background-image: url(http://placekitten.com/460/700)"></div>
+      </a>
+    </aside>
+  
+    <main class="primary" style="background-image: url(&quot;http://placekitten.com/420/600&quot;);"></main>
+  </div>
+  
+  </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script id="rendered-js">
+  $('.thumbnail').on('click', function () {
+    var clicked = $(this);
+    var newSelection = clicked.data('big');
+    var $img = $('.primary').css("background-image", "url(" + newSelection + ")");
+    clicked.parent().find('.thumbnail').removeClass('selected');
+    clicked.addClass('selected');
+    $('.primary').empty().append($img.hide().fadeIn('slow'));
+  });
+  //# sourceURL=pen.js
+      </script>
+  
+    
+    <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-44fe83e49b63affec96918c9af88c0d80b209a862cf87ac46bc933074b8c557d.js"></script>
+  
+  
+  
+  </body>
+  </html>
