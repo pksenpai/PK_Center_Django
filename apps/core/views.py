@@ -11,7 +11,9 @@ class Home(TemplateView):
     
     def get(self, request, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+        items = Item().top_rated_items()
+        print(items)
+        context.setdefault("items", items)
     #     top_sellers = Seller.objects.filter(
     #         rank__isnull=False, 
     #         rank__lte=10,

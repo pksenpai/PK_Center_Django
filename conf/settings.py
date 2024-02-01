@@ -127,7 +127,7 @@ AUTHENTICATION_BACKENDS = ("apps.users.backends.CustomModelBackend",)
 
 # mode handling
 if DEBUG:
-    STATIC_ROOT = 'static'
+    # STATIC_ROOT = 'static'
     BASE_URL = "*"
     
     GRAPH_MODELS ={
@@ -135,9 +135,9 @@ if DEBUG:
         'graph_models': True,
     }
     
-    # STATICFILES_DIRS = [
-    #     BASE_DIR / 'static',
-    # ]
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static',
+    ]
     
     # Celery:    
     CELERY_BROKER_URL = config("CELERY_BROKER_URL_DEV")

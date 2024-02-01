@@ -56,6 +56,10 @@ class ItemDetailsView(DetailView):
         context['comments'] = comments
         return context
 
+        # super().clean()
+        # if self.__class__.objects.filter(user=self.user, item=self.item).exists():
+        #     raise ValidationError("You have already rated this item.")
+        
     # def get(self, request, *args, **kwargs):
     #     self.object = self.get_object()
     #     context = self.get_context_data(object=self.object)

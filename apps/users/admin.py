@@ -27,20 +27,20 @@ class CustomUserAdmin(UserAdmin):
     list_display_links = ['username']
     search_fields = ('username',)
     ordering = ('username',)
-    list_display = ('username', 'email', 'is_active', 'is_seller', 'is_staff', 'is_superuser')
-    list_filter = ('username', 'email', 'is_active', 'is_seller', 'is_staff', 'is_superuser')
+    list_display = ('username', 'email', 'is_active', 'is_seller', 'is_supervisor', 'is_operator', 'is_staff', 'is_superuser')
+    list_filter = ('username', 'email', 'is_active', 'is_seller', 'is_supervisor', 'is_operator', 'is_staff', 'is_superuser')
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'email','is_seller')}),
         (_('Permissions'), {
-            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
+            'fields': ('is_operator', 'is_supervisor', 'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'password1', 'password2', 'is_staff', 'is_active', 'is_seller')}
+            'fields': ('username', 'email', 'password1', 'password2', 'is_staff', 'is_active', 'is_operator', 'is_supervisor', 'is_seller')}
          ),
     )
     inlines = [
