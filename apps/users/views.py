@@ -21,7 +21,11 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from base64 import b64encode, b64decode
 # from passlib.hash import pbkdf2_sha256
-    
+
+# custom 404 view
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)
+
 """\________________________[FEATURE]________________________/"""
 class Profile(View):... # Feature in future
 class Dashboard(View):... # Feature in future
