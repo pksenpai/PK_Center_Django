@@ -44,19 +44,20 @@ class UsernameLoginView(LoginView):
         
     def get_success_url(self):
         username = self.request.POST.get("username")
-        first_name = User.objects.get(username=username)
-            
-        messages.success(
-            self.request,
-            _(
-                f"Login Successfuly. " \
-                f"Welcome {first_name if first_name else username}."
+        if not self.request.user.is_authenticated:
+            first_name = User.objects.get(username=username)
+                
+            messages.success(
+                self.request,
+                _(
+                    f"Login Successfuly. " \
+                    f"Welcome {first_name if first_name else username}."
+                )
             )
-        )
-        
-        next_url = self.request.GET.get('next')
-        if next_url:
-            return next_url
+
+            next_url = self.request.GET.get('next')
+            if next_url:
+                return next_url
         return reverse_lazy('core:home')
     
 
