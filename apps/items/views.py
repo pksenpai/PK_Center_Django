@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.db.models import Q
+from django.db.models import Q, Sum
 
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -15,7 +15,7 @@ class ItemsListView(ListView):
     model = Item
     template_name = "items_list.html"
     context_object_name = "items"
-    paginate_by = 5
+    paginate_by = 2
     # queryset = Item.objects.prefetch_related('images')
     # print(queryset)
 
@@ -52,6 +52,12 @@ class ItemDetailsView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         item = self.get_object()
+        
+        total_stock = item.seller.aggregate(total_count=Sum('count'))['total_count']
+        context['total_stock'] = total_stock
+        
+        # seller.aggregate(p_sum=Sum('price'))['p_sum']
+        
         comments = Comment.objects.filter(content_type=ContentType.objects.get_for_model(Item), object_id=item.id)
         context['comments'] = comments
         return context

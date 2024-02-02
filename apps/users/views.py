@@ -19,7 +19,8 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from django.urls import reverse_lazy
-
+from base64 import b64encode, b64decode
+from passlib.hash import pbkdf2_sha256
     
 """\________________________[FEATURE]________________________/"""
 class Profile(View):... # Feature in future
@@ -146,7 +147,12 @@ class SignupView(CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         
-        url = reverse_lazy('users:verify', kwargs={'user_id': self.object.id})
+        # url = reverse_lazy('users:verify', kwargs={'user_id': self.object.id})
+        # hash_id = b64encode(str(self.object.id).encode())
+        user_email = self.object.email
+        request.session['email'] = user_email
+        hash_id = pbkdf2_sha256.hash(user_email)
+        url = reverse_lazy('users:verify', kwargs={'hash_id': hash_id})
         email = self.object.email
         
         status = send_verify_link(email, url)
@@ -167,10 +173,13 @@ class SignupView(CreateView):
 class VerifyUserView(TemplateView):
     template_name = 'verification.html'
     
-    def get(self, request, user_id, **kwargs):
-        user = User.objects.get(id=user_id)
-        user.is_active = True
-        user.save()
+    def get(self, request, hash_id, **kwargs):
+        # user_id = b64decode(hash_id)
+        email = request.session.get('email')
+        if pbkdf2_sha256.verify(email, hash_id):
+            user = User.objects.get(email=email)
+            user.is_active = True
+            user.save()
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
     

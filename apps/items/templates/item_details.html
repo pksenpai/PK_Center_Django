@@ -62,7 +62,11 @@
         {{ item.seller.first.price }}
       </div>
       <div class="detail" data-detail="gravity" data-content="Rating" data-postfix="/5">
-        {{ item.cached_average }}
+        {% if item.cached_average %}
+          {{ item.cached_average }}
+        {% else %}
+          *
+        {% endif %}  
       </div>
       <div class="detail" data-detail="hours" data-content="Discount" data-postfix="%">
         {% if item.discount.percent > 0 %}
@@ -102,8 +106,8 @@
     </div>
 
     <div class="planet-details">
-      <div class="detail" data-detail="tilt" data-content="Total Stock" data-postfix="$">
-        45
+      <div class="detail" data-detail="tilt" data-content="Total Stock" data-postfix="">
+        {{ total_stock }}
       </div>
       <div class="detail" data-detail="gravity" data-content="Number of Sellers" data-postfix="">
         {{ item.item_seller.all.count }}
@@ -137,7 +141,11 @@
         {{ item.category }}
       </div>
       <div class="detail" data-detail="hours" data-content="Orginal">
-        {{ item.orginality }}
+        {% if item.seller.first.orginality %}
+          Yes
+        {% else %}
+          No
+        {% endif %}
       </div>
     </div>
 

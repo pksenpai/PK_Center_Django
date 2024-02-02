@@ -53,7 +53,7 @@ class Item(LogicalBaseModel, StatusMixin):
     class Meta:
         verbose_name_plural = _("Items")
         verbose_name        = _("Item")
-        ordering            =  ("?",)
+        # ordering            =  ("",)
         
     def get_first_image(self):
         if first_image := self.image.first():
@@ -68,10 +68,13 @@ class Item(LogicalBaseModel, StatusMixin):
             return cached_value
 
         average_score = self.rating.aggregate(avg_score=models.Avg('score'))['avg_score']
-        rounded_average_score = round(average_score, 1)
-        print(rounded_average_score)
-        cache.set(cache_key, rounded_average_score, 86400)  # expire every day
-        return rounded_average_score
+        if average_score:
+            rounded_average_score = round(average_score, 1)
+            cache.set(cache_key, rounded_average_score, 86400)  # expire every day
+            return rounded_average_score
+        else:
+            cache.set(cache_key, average_score, 86400)  # expire every day
+            return average_score
     
     def top_rated_items(self, limit=10):
         cache_key = f"top_rated_items_{limit}"
@@ -82,6 +85,16 @@ class Item(LogicalBaseModel, StatusMixin):
         top_items = Item.objects.annotate(avg_score=models.Avg('rating__score')).order_by('-avg_score')[:limit]
         cache.set(cache_key, top_items, 21600) # expire every 6 hour
         return top_items
+    
+    # def total_stock(self):
+    #     cache_key = f"total_stock{self.pk}"
+    #     cached_number = cache.get(cache_key)
+    #     if cached_number:
+    #         return cached_number
+
+    #     total_stock = Item.objects.annotate(total_count=models.Sum('seller__count'))['total_count']
+    #     cache.set(cache_key, total_stock, 3600) # expire every 1 hour
+    #     return total_stock
     
     def get_absolute_url(self):
         return reverse("items:item_details", args=[self.id])
