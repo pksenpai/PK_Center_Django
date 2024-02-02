@@ -31,5 +31,5 @@ urlpatterns = [
         name='logout',
     ),
     path('profile/<int:pid>/', Profile.as_view(), name='profile'),
-    path('verify/<str:hash_id>', VerifyUserView.as_view(), name='verify'),
+    path('verify/<int:user_id>', VerifyUserView.as_view(), name='verify'),
 ]
