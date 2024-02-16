@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block header_setting %}
+  <link href="{% static 'items/css/ai_canvas.css' %}" rel="stylesheet">
+  <link href="{% static 'items/css/items_list_plus_card.css' %}" rel="stylesheet">
+  
+{% endblock %}
+
+{% block title %}PK Center | Cart{% endblock %}
+
+{% block body %}
+<main>
+  <div id="particles-js">
+    <canvas class="particles-js-canvas-el" width="10" height="10" style="width: 10%; height: 10%;"></canvas>
+  </div>
+  <div id="app">
+    <div class="cart">
+      <h2>Your Cart</h2>
+      <table class="cart-list" v-if="cart.length">
+        <thead>
+          <tr>
+            <th class="head-title">Product</th>
+            <th class="head-price">Price</th>
+            <th class="head-quantity">Quantity</th>
+            <th class="head-total">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="cart-item" v-for="(item, id) in cart" :key="'id-' + id">
+            <td>
+              <h4 class="title">[[ item.title ]]</h4>
+            </td>
+            <td>
+              <div class="price">[[ item.price | currency ]]</div>
+            </td>
+            <td>
+              <div class="quantity">
+                [[ item.quantity ]]<span class="qty-handler"><span @click="add(item)">+</span><span @click="sub(item)">-</span></span></div>
+            </td>
+            <td>
+              <div class="total">[[ item.price * item.quantity | currency ]]</div>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="3">
+              <h4 class="total-title">Total</h4>
+            </th>
+            <th>[[ total | currency ]]</th>
+          </tr>
+        </tfoot>
+      </table>
+      <div class="empty-contents" v-else="v-else">
+        <div class="draw">
+          <div class="cactus">
+            <div class="arm"></div>
+            <div class="arm"></div>
+          </div>
+          <div class="cactus">
+            <div class="arm"></div>
+            <div class="arm"></div>
+          </div>
+          <div class="cactus">
+            <div class="arm"></div>
+            <div class="arm"></div>
+          </div>
+          <div class="sky">
+            <div class="montain"></div>
+            <div class="montain two"></div>
+            <div class="sun"></div>
+          </div>
+        </div>
+        <p class="no-items-text">Your cart is actually empty</p>
+      </div>
+    </div>
+    <div class="text-center">
+        <button type="button" class="fw-bold" style="background-color: #00ffff;">Purchase</button>
+        <button class="bg-white"><a :href="'/items/list/'">back to products</a></button>
+    </div>
+</div>
+
+</main>
+{% endblock %}
+
+{% block js %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="{% static 'items/js/ai_canvas_white.js' %}"></script>
+
+  {% comment %} Add to Card {% endcomment %}
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  <script id="rendered-js">
+/**************************************
+            VUE INSTANCE
+**************************************/
+  new Vue({
+  delimiters: ['[[', ']]'],
+  el: '#app',
+  data() {
+    return {
+      appTitle: 'My Vue Shop',
+      products: [
+        {% for item in items %}
+          { 
+            id: {{ item.id }}, 
+            title: '{{ item.name }}',
+            price: {{ item.seller.first.price }},
+            img: '{{ item.itemimage_set.first.src.url }}',
+          },
+        {% endfor %}
+      ],
+      cart: [],
+      total: 0
+    };
+  },
+  methods: {
+    addItem(prod) {
+      // Increment total price
+      this.total += prod.price;
+      console.log(prod.img);
+
+      // Check if the product is already in the cart
+      const existingItem = this.cart.find(item => item.id === prod.id);
+
+      if (existingItem) {
+        // If the product is already in the cart, increase its quantity
+        existingItem.quantity += 1;
+      } else {
+        // If the product is not in the cart, add it
+        this.cart.push({
+          id: prod.id,
+          title: prod.title,
+          price: prod.price,
+          quantity: 1,
+          img: prod.img,
+        });
+      }
+      // Remove items with quantity zero from the cart
+      this.cart = this.cart.filter(item => item.quantity > 0);
+    },
+    add(item) {
+      // Increment item quantity and total price
+      item.quantity += 1;
+      this.total += item.price;
+    },
+    sub(item) {
+      // Decrement item quantity and total price
+      if (item.quantity > 1) {
+        item.quantity -= 1;
+        this.total -= item.price;
+      }
+    }
+  },
+  filters: {
+    currency(value) {
+      // Format the price as currency
+      return '$' + value.toFixed(2);
+    }
+  }
+  });
+  
+  </script>
+{% endblock %}

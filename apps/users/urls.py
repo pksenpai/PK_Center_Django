@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import *
 
-
+handler404 = 'apps.users.views.custom_404'
 app_name = 'users'
 urlpatterns = [
     path('dashboard/', Dashboard.as_view(), name='dashboard'),

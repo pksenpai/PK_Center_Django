@@ -19,8 +19,13 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from django.urls import reverse_lazy
+from base64 import b64encode, b64decode
+# from passlib.hash import pbkdf2_sha256
 
-    
+# custom 404 view
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)
+
 """\________________________[FEATURE]________________________/"""
 class Profile(View):... # Feature in future
 class Dashboard(View):... # Feature in future
@@ -43,19 +48,20 @@ class UsernameLoginView(LoginView):
         
     def get_success_url(self):
         username = self.request.POST.get("username")
-        first_name = User.objects.get(username=username)
-            
-        messages.success(
-            self.request,
-            _(
-                f"Login Successfuly. " \
-                f"Welcome {first_name if first_name else username}."
+        if not self.request.user.is_authenticated:
+            first_name = User.objects.get(username=username)
+                
+            messages.success(
+                self.request,
+                _(
+                    f"Login Successfuly. " \
+                    f"Welcome {first_name if first_name else username}."
+                )
             )
-        )
-        
-        next_url = self.request.GET.get('next')
-        if next_url:
-            return next_url
+
+            next_url = self.request.GET.get('next')
+            if next_url:
+                return next_url
         return reverse_lazy('core:home')
     
 
@@ -147,6 +153,12 @@ class SignupView(CreateView):
         response = super().form_valid(form)
         
         url = reverse_lazy('users:verify', kwargs={'user_id': self.object.id})
+        # hash_id = b64encode(str(self.object.id).encode())
+        # print('1>'*10, hash_id)
+        # user_email = self.object.email
+        # request.session['email'] = user_email
+        # hash_id = pbkdf2_sha256.hash(user_email)
+        # url = reverse_lazy('users:verify', kwargs={'hash_id': hash_id})
         email = self.object.email
         
         status = send_verify_link(email, url)
@@ -168,6 +180,12 @@ class VerifyUserView(TemplateView):
     template_name = 'verification.html'
     
     def get(self, request, user_id, **kwargs):
+        # user_id = b64decode(hash_id)
+        # print('2>'*10, hash_id)
+        # print('2>'*10, user_id)
+        # email = request.session.get('email')
+        # if pbkdf2_sha256.verify(email, hash_id):
+        # user = User.objects.get(email=email)
         user = User.objects.get(id=user_id)
         user.is_active = True
         user.save()

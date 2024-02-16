@@ -17,27 +17,18 @@ from django.core.cache import cache
 from django.utils.functional import cached_property
 
 
-STATUS_CHOICES = [
-    ("ICD", "In Card"),
-    ("IOR", "In Order"),
-    ("IPD", "Is Paid"),
-    ("IPS", "In Process"),
-    ("IPN", "In Preparation"),
-    ("SDG", "Sending"),
-    ("DVD", "Delivered"),
-    ("IDE", "Done"),
-]
 
 class Order(TimeStampBaseModel, LogicalBaseModel, StatusMixin):
-    # class StatusChoices(models.TextChoices):
-    #     IN_CARD        = "ICD", _("In Card")
-    #     IN_ORDER       = "IOR", _("In Order")
-    #     IS_PAID        = "IPD", _("Is Paid")
-    #     IN_PROCESS     = "IPS", _("In Process")
-    #     IN_PREPARATION = "IPN", _("In Preparation")
-    #     SENDING        = "SDG", _("Sending")
-    #     DELIVERED      = "DVD", _("Delivered")
-    #     IS_DONE        = "IDE", _("Done")
+    STATUS_CHOICES = [
+        ("ICD", "In Card"),
+        ("IOR", "In Order"),
+        ("IPD", "Is Paid"),
+        ("IPS", "In Process"),
+        ("IPN", "In Preparation"),
+        ("SDG", "Sending"),
+        ("DVD", "Delivered"),
+        ("IDE", "Done"),
+    ]
     
     """\_______________[MAIN]_______________/"""
     status = models.CharField(
@@ -100,7 +91,8 @@ class Discount(TimeStampBaseModel):
     )
 
     percent = models.IntegerField(
-        null=True,
+        null=True, # learn GenerativeField and use "False if self.percent_mode else True",
+        blank=True,
         verbose_name=_("Percent"),
         validators = [
             MinValueValidator(1),
@@ -120,17 +112,25 @@ class Discount(TimeStampBaseModel):
 
     cash = models.DecimalField(
         null=True,
+        blank=True,
         max_digits=30,
         decimal_places=2,
         verbose_name=_("Cash"),
     )
 
     expire_datetime = models.DateTimeField(verbose_name=_("Expire Date & Time"))
-    count = models.IntegerField(validators=[MinValueValidator(0)], verbose_name=_("Count"))
+    count = models.IntegerField(
+        null=True,
+        blank=True,
+        validators=[
+            MinValueValidator(0)
+        ],
+        verbose_name=_("Count")
+    )
 
     """\_____________[RELATIONS]_____________/"""
-    item  = models.OneToOneField(Item, null=True, on_delete=models.CASCADE, verbose_name=_('Item'))
-    order = models.OneToOneField(Order, null=True, on_delete=models.CASCADE, verbose_name=_('Order'))
+    item  = models.OneToOneField(Item, null=True, blank=True, on_delete=models.CASCADE, verbose_name=_('Item'))
+    order = models.OneToOneField(Order, null=True, blank=True, on_delete=models.CASCADE, verbose_name=_('Order'))
 
     objects = DiscountManager()
 
@@ -140,7 +140,7 @@ class Discount(TimeStampBaseModel):
 
     def clean(self):
         super().clean()
-        if timezone.now() < self.expire_datetime:
+        if timezone.now() > self.expire_datetime:
             raise ValidationError("The expiration datetime can't be before the current datetime! :(")
 
     def clean_mode(self):
@@ -148,11 +148,11 @@ class Discount(TimeStampBaseModel):
         if self.percent and self.cash:
             raise ValidationError("a Discount cant has both cash & percent mode! :(")
 
-    def save(self, *args, **kwargs): # IS IT A BAD IDEA?!?!?!?!?!??!?!?!??!?!???!!?!?!?!??!?!?!?!?
-        if self.expire_datetime:
-            self.expire_datetime = datetime.strptime(self.expire_datetime, "%Y-%m-%d %H:%M:%S")
-            self.expire_datetime = timezone.make_aware(self.expire_datetime)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs): # IS IT A BAD IDEA?!?!?!?!?!??!?!?!??!?!???!!?!?!?!??!?!?!?!?
+    #     if self.expire_datetime:
+    #         self.expire_datetime = datetime.strptime(str(self.expire_datetime), "%Y-%m-%d %H:%M:%S")
+    #         self.expire_datetime = timezone.make_aware(self.expire_datetime)
+    #     super().save(*args, **kwargs)
         
     def __str__(self):
-        return self.mode
+        return f"{str(self.item)}: {self.percent}%" if self.percent_mode else f"{str(self.order)}: {self.cash}$"

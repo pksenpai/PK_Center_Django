@@ -75,7 +75,7 @@
         <p class="no-items-text">Your cart is actually empty</p>
       </div>
     </div>
-    <div class="products mx-3">
+    <div class="products mx-3 mt-5">
       <h2>Products</h2>
       <div class="products-list row">
         <div class="product col-6" v-for="(prod, ind) in products" :key="'ind-' + ind">
@@ -85,13 +85,14 @@
             </div>
             <h3 class="title">[[ prod.title ]]</h3>
             <p class="price">[[ prod.price | currency ]]</p>
-            <button @click="addItem(prod)">Add to cart</button>
+            <button type="button" :value="prod.id"
+             @click="addItem(prod)" id="add-cart">Add to cart</button>
             <button><a :href="'/items/details/' + prod.id">more details</a></button>
           </div>
         </div>
       </div>
     </div>
-    <div class="pagination align-items-center justify-content-center">
+    <div class="pagination align-items-center justify-content-center mb-4">
       <span class="step-links">
           {% if page_obj.has_previous %}
             <button class="button-89" role="button">              
@@ -107,6 +108,7 @@
           </span>
   
           {% if page_obj.has_next %}
+            <button class="button-89" role="button">   
               <a href="?page={{ page_obj.next_page_number }}">next</a>
             </button>  
             <button class="button-89" role="button">
@@ -142,7 +144,7 @@
           { 
             id: {{ item.id }}, 
             title: '{{ item.name }}',
-            price: {{ item.price }},
+            price: {{ item.seller.first.price }},
             img: '{{ item.itemimage_set.first.src.url }}',
           },
         {% endfor %}

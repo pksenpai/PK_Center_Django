@@ -15,19 +15,25 @@ class ItemImageInline(admin.TabularInline):
 
 class ItemRatingInline(admin.TabularInline):
     model = Rating
-    readonly_fields = ('id', 'score', 'user')
+    readonly_fields = ('id',) #  'score', 'user'
     extra = 1
+    
+    def clean(self):
+        super().clean()
+        if Rating.objects.filter(user=self.cleaned_data['user'], item=self.cleaned_data['item']).exists():
+            raise ValidationError("You have already rated this item.")
+
 
 class ItemSellerItemInline(admin.TabularInline):
     model = SellerItem
     readonly_fields = ('id',)
     extra = 1
 
+
 class ItemFavoriteInline(admin.TabularInline):
     model = Favorite
     readonly_fields = ('id', 'user')
     extra = 1
-
 
 
 @admin.register(Item)

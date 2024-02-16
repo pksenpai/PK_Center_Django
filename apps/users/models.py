@@ -7,6 +7,7 @@ from .managers import ProfileManager
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.core.validators import RegexValidator
+from ckeditor.fields import RichTextField
 
 
 class User(AbstractUser, LogicalBaseModel):
@@ -16,11 +17,6 @@ class User(AbstractUser, LogicalBaseModel):
         _("active"),
         default=False,
     )
-    
-    # is_manager = models.BooleanField(
-    #     _("manager"),
-    #     default=False,
-    # )
     
     is_supervisor = models.BooleanField(
         _("supervisor"),
@@ -92,6 +88,33 @@ class User(AbstractUser, LogicalBaseModel):
                 group.permissions.add(*perms)
             self.groups.add(group)
         
+        if self.is_staff and self.is_supervisor:
+            group, created = Group.objects.get_or_create(name="Superviser")
+            if created:
+                perms = Permission.objects.filter(
+                    codename__in=[
+                        'view_item',
+                        'view_discount',
+                        'view_order',
+                        'view_user',
+                    ]
+                )
+                group.permissions.add(*perms)
+            self.groups.add(group)
+        
+        if self.is_staff and self.is_operator:
+            group, created = Group.objects.get_or_create(name="Operator")
+            if created:
+                perms = Permission.objects.filter(
+                    codename__in=[
+                        'view_item',
+                        'view_discount',
+                        'view_order',
+                        'view_user',
+                    ]
+                )
+                group.permissions.add(*perms)
+            self.groups.add(group)
         # elif self.is_staff and self.is_superuser:...
         # elif self.is_staff and self.is_operator:...
         
@@ -110,7 +133,7 @@ class Profile(ProfileImageBaseModel):
         verbose_name = _('Profile Name')
     )
     
-    description = models.TextField(
+    description = RichTextField(
         null         = True, 
         blank        = True,
         verbose_name = _('Description')

@@ -36,6 +36,9 @@
                 </div>
             </div>
 
+            <img class="" src="{% static "" %}" alt="" />
+            
+
             <div class="video-wrap">
                 <video autoplay="" loop="" muted="" class="custom-video" poster="">
                     <source src="{% static 'core/videos/earth.mp4' %}" type="video/mp4">
@@ -45,9 +48,13 @@
             </div>
         </section>
         
-        <div class="border-top">
-            <h1 class="ps-4" style="text-align: center; font-size: 50px;">anyone with anystyle</h1>
-            <div class="ms-5 ps-5">
+        <div class="border-top d-flex justify-content-center align-items-center">
+            <div>
+                <p class="d-block" style="text-align: center; font-size: 50px;">anyShop</p>
+                <p class="d-block" style="text-align: center; font-size: 50px;"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-star-fill px-2 text-warning" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-star-fill px-2 text-warning" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-star-fill px-2 text-warning" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-star-fill px-2 text-warning" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-star-fill px-2 text-warning" viewBox="0 0 16 16"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path></svg></p>
+                <p class="d-block" style="text-align: center; font-size: 50px;">anyCategory</p>
+            </div>
+            <div class="">
                 <div class="scroller" data-speed="fast">
                     <ul class="tag-list scroller__inner">
                         {% for category in categories %}
@@ -58,20 +65,37 @@
 
                 <div class="scroller" data-direction="right" data-speed="slow">
                     <div class="scroller__inner">
-                        <img src="https://i.pravatar.cc/150?img=1" alt="" />
-                        <img src="https://i.pravatar.cc/150?img=2" alt="" />
-                        <img src="https://i.pravatar.cc/150?img=3" alt="" />
-                        <img src="https://i.pravatar.cc/150?img=4" alt="" />
-                        <img src="https://i.pravatar.cc/150?img=5" alt="" />
-                        <img src="https://i.pravatar.cc/150?img=6" alt="" />
+                        {% for seller in sellers %}
+                            <img class="rounded-5" src="{{ seller.src.url }}" width="150px" height="150px" alt="" />
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
+        
+        <div class="text-center border-top">
+            <h2 class="mt-4">Top of Items</h2>
+        </div>
+        <div class="text-center">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mx-2">
+                {% for item in items %}
+                <div class="col-4 m-5 rounded-4 bg-white text-black w-25">
+                    <img class="image my-3" style="border-radius: 20%;" width="250" height="250px" src="{{ item.itemimage_set.first.src.url }}" alt="{{ item.itemimage_set.first.alt }}">
+                    <h3 class="title" style="font-size: 20px;">{{ item.name }}</h3>
+                    <p class="price">{{ item.seller.first.price }}$</p>
+                    <button>Add to cart</button>
+                    <button class="mb-3"><a href="{% url "items:details" item.id %}">more details</a></button>
+                </div>
+                {% endfor %}
+            </div>
+            <a class="mb-4" href="{% url "items:list" %}">more...</a>
+        </div>
 
+        <div class="text-center border-top">
+            <h2 class="mt-4">Top of Sellers</h2>
+        </div>
+        <div class="mt-5 d-flex justify-content-center" id="hero-slides">
 
-        <div class="mt-5 align-items-center border-top" id="hero-slides">
-            <h1 class="mb-5 mt-3" style="text-align: end; font-size: 50px;">Top of Sellers</h1>
             <div id="slides" class="row bg-black">
                 {% for seller in sellers %}
                 <div class="slide item m-2 col-3" style="background-image: url({{ seller.src.url }}) ">
