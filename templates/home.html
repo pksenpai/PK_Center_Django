@@ -82,7 +82,7 @@
                 <div class="col-4 m-5 rounded-4 bg-white text-black w-25">
                     <img class="image my-3" style="border-radius: 20%;" width="250" height="250px" src="{{ item.itemimage_set.first.src.url }}" alt="{{ item.itemimage_set.first.alt }}">
                     <h3 class="title" style="font-size: 20px;">{{ item.name }}</h3>
-                    <p class="price">{{ item.price }}$</p>
+                    <p class="price">{{ item.seller.first.price }}$</p>
                     <button>Add to cart</button>
                     <button class="mb-3"><a href="{% url "items:details" item.id %}">more details</a></button>
                 </div>

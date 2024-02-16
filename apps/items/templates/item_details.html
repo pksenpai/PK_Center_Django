@@ -165,14 +165,13 @@
     </div>
   
     <div class="planet-details">
-      <div class="detail" data-detail="tilt" data-content="Number of Customer" data-postfix="Cu">
+      <div class="detail" data-detail="tilt" data-content="">
+      </div>
+      <div class="detail" data-detail="gravity" data-content="Number of Customer" data-postfix="Cu">
         7332
       </div>
-      <div class="detail" data-detail="gravity" data-content="Number of Comments" data-postfix="Co">
-        7
-      </div>
-      <div class="detail" data-detail="hours" data-content="Last Comment">
-        2021/Jan/25
+      <div class="detail" data-detail="hours" data-content="Number of Comments" data-postfix="Co">
+        {{ comments|length }}
       </div>
     </div>
   

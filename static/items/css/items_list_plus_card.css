@@ -15,7 +15,7 @@ body {
 }
 #app {
   width: 100%;
-  max-width: 300rem;
+  max-width: 1000rem;
 }
 h1 {
   margin: 0 0 3rem;

@@ -43,6 +43,7 @@ class ItemsListView(ListView):
 #     queryset = Item.objects.all()
 #     serializer_class = ItemSerializer
 
+# class AddToCartView():...
 
 class ItemDetailsView(DetailView):
     model = Item
