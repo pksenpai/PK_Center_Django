@@ -123,6 +123,13 @@
     </figure>
   </div>
 
+  <div class="planet-comments">
+    <ul>
+      <button style="padding: 15px; background-color: #00efef; border-radius: 90%;" id="add-to-cart-btn" onclick="addToCart('{{ item.id }}', {{ item.seller.first.price }})">Add to cart</button>
+    </ul> 
+  </div>
+
+
   <!-- empty -->
   <div class="planet" data-planet="mars">
   </div>
@@ -392,6 +399,36 @@
 
 
     <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-44fe83e49b63affec96918c9af88c0d80b209a862cf87ac46bc933074b8c557d.js"></script>
+    <script>
+      function addToCart(productId, productPrice) {
+          
+          /* while (key != productId) {
+              var cookie = document.cookie.split('=');
+              var key = cookie[0];
+          } */
+          var cookie = document.cookie.split('=');
+          var key = cookie[0];
+          var value = cookie[1];
+          
+          if (value) {
+              var count = JSON.parse(value)['count'];
+              console.log(count);
+          }
+          
+          // parseInt(value, deciaml_count) --> it's for change str datatype to deciaml int
+          
+          if (key == productId) {
+              count += 1;
+          } else {
+              count = 1;
+          }
+          // console.log(value);
+      
+          var itemValue = {'price':productPrice, 'count':count};
+          console.log(typeof itemValue);
 
+          document.cookie = productId + "=" + JSON.stringify(itemValue);
+      }
+  </script>
 </body>
 </html>
