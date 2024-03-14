@@ -76,8 +76,13 @@
       </div>
     </div>
     <div class="text-center">
-        <button type="button" class="fw-bold" style="background-color: #00ffff;">Purchase</button>
-        <button class="bg-white"><a :href="'/items/list/'">back to products</a></button>
+        <button type="button" class="fw-bold" style="background-color: #00ffff;">
+          <a href="{% url "items:payment" %}">Purchase</a>
+        </button>
+        
+        <button class="bg-white">
+          <a href="{% url "items:list" %}">back to products</a>
+        </button>
     </div>
 </div>
 
@@ -95,7 +100,7 @@
 /**************************************
             VUE INSTANCE
 **************************************/
-  new Vue({
+new Vue({
   delimiters: ['[[', ']]'],
   el: '#app',
   data() {
@@ -151,7 +156,11 @@
         item.quantity -= 1;
         this.total -= item.price;
       }
-    }
+    },
+    created() {
+      const numericCookies = getNumericCookies();
+      console.log(numericCookies);
+    },
   },
   filters: {
     currency(value) {
@@ -159,7 +168,27 @@
       return '$' + value.toFixed(2);
     }
   }
-  });
+});
+
+function getNumericCookies() {
+  const cookies = document.cookie.split(';');
+  const numericCookies = [];
+
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    const [name, value] = cookie.split('=');
+    
+    // Check if the name can be converted to an integer
+    if (!isNaN(parseInt(name))) {
+      numericCookies.push({
+        name: name,
+        value: value
+      });
+    }
+  }
+
+  return numericCookies;
+}
   
   </script>
 {% endblock %}

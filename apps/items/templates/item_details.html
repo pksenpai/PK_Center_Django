@@ -427,7 +427,11 @@
           var itemValue = {'price':productPrice, 'count':count};
           console.log(typeof itemValue);
 
-          document.cookie = productId + "=" + JSON.stringify(itemValue);
+          var expiresDate = new Date();
+          expiresDate.setDate(expiresDate.getDate() + 7); // expire date is every 7 days
+          var expiresString = "expires=" + expiresDate.toUTCString();
+          
+          document.cookie = productId + "=" + JSON.stringify(itemValue) + "; " + expiresString + "; path=/";
       }
   </script>
 </body>
