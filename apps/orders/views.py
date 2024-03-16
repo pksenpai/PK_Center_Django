@@ -10,8 +10,9 @@ from rest_framework.response import Response
 
 from ast import literal_eval
 
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Discount
 from apps.items.models import Item
+from apps.users.models import Address
 from .serializers import FinalizePaymentSerializer, ShowPaymentSerializer
 
 class CartView(ListView):
@@ -39,9 +40,10 @@ class FinalizePaymentView(LoginRequiredMixin, APIView):
                         
                         # validate & safe the result of eval
                         if not ShowPaymentSerializer(data=cookie_value_dict).is_valid():
-                            return Response({'message': 'invalid data!'}, status=422)
+                            return Response({'message': 'invalid data!'}, status=400)
                             
-                        items.setdefault(c, cookie_value_dict)
+                        items.setdefault(c, {'price': float(cookie_value_dict['price']),
+                                             'count': int(cookie_value_dict['count'])})
                         
                         
                 except ValueError:
@@ -49,7 +51,20 @@ class FinalizePaymentView(LoginRequiredMixin, APIView):
             
             if items:
                 print('*'*10, items)
-                return Response({'items': items})
+                items_obj = Item.objects.filter(id__in=items.keys())
+                items_dis = {}
+                for item in items_obj:
+                    try:
+                        print(f'>>>>>>{item}')
+                        items_dis.setdefault(item.name, str(item.discount)[-4:].strip())
+                    except:
+                        print(f"no discount! --> {item}")
+                        
+                order_discount = ... # coming soon...
+                
+                
+                user_addresses = Address.objects.filter(user=request.user).values_list('address')
+                return Response({'items': items, 'addresses': user_addresses, 'items_discount': items_dis})
             else:
                 return Response({'message': 'cart is empty!'}, status=422)
 
