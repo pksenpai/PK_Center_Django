@@ -1,0 +1,438 @@
+{% load static %}
+<html>
+<head>
+  <link href="{% static 'items/css/ai_canvas.css' %}" rel="stylesheet">
+  <link href="{% static 'items/css/image.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="item_details.css">
+  <link href="{% static 'items/css/item_details.css' %}" rel="stylesheet">
+  <link href="{% static 'items/css/comments.css' %}" rel="stylesheet">
+  <style>
+    /* کد CSS برای مخفی کردن اسکریپت خارجی */
+    .hidden-script {
+      display: none;
+    }
+  </style>
+</head>
+<body translate="no">
+  <div id="particles-js">
+    <canvas class="particles-js-canvas-el" width="10" height="10" style="width: 10%; height: 10%;"></canvas>
+  </div>
+  <a href="{% url "items:list" %}" style="color: black; margin: 20px; top: 20px;" class="">
+    <button style="padding: 15px; background-color: #00efef; border-radius: 90%;">
+      Back
+    </button>
+  </a>
+  <script src="https://codepen.io/shshaw/pen/QmZYMG.js" class="hidden-script"></script>
+
+<div id="app" data-current-planet="mercury">
+
+  <nav class="planet-nav">
+    <svg viewBox="0 20 400 400" xmlns="http://www.w3.org/2000/svg" style="--length: 7;">
+
+<!--       <defs> -->
+        <path id="navPath" d="M10,200 C30,-28 370,-28 390,200" fill="none"></path>
+<!--       </defs> -->
+
+      <text>
+        <textPath href="#navPath" startOffset="0" font-size="10">
+          <tspan x="0" x="0">Info</tspan>
+          <tspan x="75.04299218314034" x="75.04299218314034"></tspan>
+          <tspan x="150.08598436628068" x="150.08598436628068">Buy</tspan>
+          <tspan x="225.12897654942103" x="225.12897654942103"></tspan>
+          <tspan x="300.17196873256137" x="300.17196873256137">Details</tspan>
+          <tspan x="375.21496091570174" x="375.21496091570174"></tspan>
+          <tspan x="450.25795309884205" x="450.25795309884205">Comments</tspan>
+          <tspan x="525.3009452819824" x="525.3009452819824"></tspan>
+        </textPath>
+      </text>
+
+    </svg>
+  </nav>
+
+  
+  
+  <div class="planet" data-planet="mercury" data-active="">
+    <div class="planet-title">
+      <h1 class="words chars splitting" style="--word-total: 1; --char-total: 7;">{{ item.name.title }}</h1>
+      <p class="planet-description">{{ item.description|safe }}</p>
+    </div>
+    
+    <div class="planet-details">
+      <div class="detail" data-detail="tilt" data-content="Price" data-postfix="$">
+        {{ item.seller.first.price }}
+      </div>
+      <div class="detail" data-detail="gravity" data-content="Rating" data-postfix="/5">
+        {% if item.cached_average %}
+          {{ item.cached_average }}
+        {% else %}
+          *
+        {% endif %}  
+      </div>
+      <div class="detail" data-detail="hours" data-content="Discount" data-postfix="%">
+        {% if item.discount.percent > 0 %}
+          {{ item.discount.percent }}
+        {% else %}
+          0
+        {% endif %}
+      </div>
+    </div>
+
+    <figure class="planet-figure" style="position: relative;">
+      <div class="image-gallery" style="z-index: 5; margin-bottom: 20px;">
+        <aside class="thumbnails">
+          {% for image in item.itemimage_set.all %}
+          <a href="#" class="thumbnail selected" data-big="{{ image.src.url }}">
+            <div class="thumbnail-image" style="background-image: url({{ image.src.url }})"></div>
+          </a>
+          {% endfor %}
+        </aside>
+      
+        <main class="primary" style="background-image: url(&quot;{{ item.itemimage_set.first.src.url }}&quot;);"></main>    
+      </div>
+      <div style="position: absolute; top: 120px;">
+        <img src="{% static 'items/images/planet001.jpg' %}">
+      </div>
+    </figure>
+  </div>
+
+  <!-- empty -->
+  <div class="planet" data-planet="venus">
+  </div>
+
+  <div class="planet" data-planet="earth">
+    <div class="planet-title">
+      <h1 class="words chars splitting" style="--word-total: 1; --char-total: 5;">Sellers</h1>
+      <p class="planet-description">Which store do you want to buy from?</p>
+    </div>
+
+    <div class="planet-details">
+      <div class="detail" data-detail="tilt" data-content="Total Stock" data-postfix="">
+        {{ total_stock }}
+      </div>
+      <div class="detail" data-detail="gravity" data-content="Number of Sellers" data-postfix="">
+        {{ item.item_seller.all.count }}
+      </div>
+      <div class="detail" data-detail="hours" data-content="best Seller" data-prefix="@" data-postfix="">
+        {{ item.seller.first }}
+
+      </div>
+    </div>
+
+    <figure class="planet-figure">
+      <img src="{% static 'items/images/planet002.jpg' %}" width="1200" height="1200">
+    </figure>
+  </div>
+
+  <div class="planet-comments">
+    <ul>
+      <button style="padding: 15px; background-color: #00efef; border-radius: 90%;" id="add-to-cart-btn" onclick="addToCart('{{ item.id }}', {{ item.seller.first.price }})">Add to cart</button>
+    </ul> 
+  </div>
+
+
+  <!-- empty -->
+  <div class="planet" data-planet="mars">
+  </div>
+
+  <div class="planet" data-planet="jupiter">
+    <div class="planet-title">
+      <h1 class="words chars splitting" style="--word-total: 1; --char-total: 7;">Attributes</h1>
+      {{ item.attribute|safe }}
+    </div>
+
+    <div class="planet-details">
+      <div class="detail" data-detail="tilt" data-content="Brand" data-postfix="">
+        {{ item.brand.title }}
+      </div>
+      <div class="detail" data-detail="gravity" data-content="Category" data-postfix="">
+        {{ item.category }}
+      </div>
+      <div class="detail" data-detail="hours" data-content="Orginal">
+        {% if item.seller.first.orginality %}
+          Yes
+        {% else %}
+          No
+        {% endif %}
+      </div>
+    </div>
+
+    <figure class="planet-figure">
+      <img src="{% static 'items/images/planet003.jpg' %}" width="1650" height="1500">
+    </figure>
+  </div>
+
+  <!-- empty -->
+  <div class="planet" data-planet="saturn">
+  </div>
+
+  <div class="planet" data-planet="uranus">
+    <div class="planet-title">
+      <h1 class="words chars splitting" style="--word-total: 1; --char-total: 6; font-size: 50px;">Tell us your experience:</h1>
+      <p class="planet-description"></p>
+    </div>
+  
+    <div class="planet-details">
+      <div class="detail" data-detail="tilt" data-content="">
+      </div>
+      <div class="detail" data-detail="gravity" data-content="Number of Customer" data-postfix="Cu">
+        7332
+      </div>
+      <div class="detail" data-detail="hours" data-content="Number of Comments" data-postfix="Co">
+        {{ comments|length }}
+      </div>
+    </div>
+  
+    <figure class="planet-figure">
+      <img src="{% static 'items/images/planet004.jpg' %}" width="1650" height="1500">
+    </figure>
+  
+    <div class="planet-comments">
+      <ul>
+        {% for comment in comments %}
+          {% if comment.approved %}
+            {% include 'comment.html' with comment=comment %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- empty -->
+  <div class="planet" data-planet="neptune">
+  </div>
+
+</div>
+  <script>
+    // کد جاوااسکریپت برای لغو کردن عملکرد پیش‌فرض لینک
+    const backLink = document.querySelector('a[data-keyframers-credit]');
+
+    backLink.addEventListener('click', (event) => {
+      event.preventDefault();
+    });
+  </script>
+  <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.min.js"></script>
+      <script id="rendered-js">
+    console.clear();
+
+    Splitting({ target: '.planet-title h1', by: 'chars' });
+
+    const elApp = document.querySelector('#app');
+
+    const elPlanets = Array.from(document.querySelectorAll('[data-planet]')).
+    reduce((acc, el) => {
+      const planet = el.dataset.planet;
+
+      acc[planet] = el;
+
+      return acc;
+    }, {});
+
+    const planetKeys = Object.keys(elPlanets);
+
+    function getDetails(planet) {
+      // tilt, gravity, hours
+      const details = Array.from(elPlanets[planet].
+      querySelectorAll(`[data-detail]`)).
+      reduce((acc, el) => {
+        acc[el.dataset.detail] = el.innerHTML.trim();
+
+        return acc;
+      }, { planet });
+
+      return details;
+    }
+
+    // ...........
+
+    let currentPlanetIndex = 0;
+    let currentPlanet = getDetails('mercury');
+
+    function selectPlanet(planet) {
+      const elActive = document.querySelector('[data-active]');
+      const prevPlanet = currentPlanet; 
+
+      delete elActive.dataset.active;
+
+      const elPlanet = elPlanets[planet];
+
+      elPlanet.dataset.active = true;
+      currentPlanet = getDetails(elPlanet.dataset.planet);
+
+      console.log(prevPlanet, currentPlanet);
+
+      const elHoursDetail = elPlanet.querySelector('[data-detail="hours"]');
+      const inputValue = +currentPlanet.hours;
+
+      if (!isNaN(inputValue)) {
+        animate.fromTo({
+          from: +prevPlanet.hours || 0, 
+          to: inputValue
+        }, value => {
+          elHoursDetail.innerHTML = Math.round(value);
+        });
+      }
+
+      const elTiltDetail = elPlanet.querySelector('[data-detail="tilt"]');
+      animate.fromTo(
+        {
+          from: +prevPlanet.tilt,
+          to: +currentPlanet.tilt
+        },
+        value => {
+          const formattedValue = isNaN(value) ? currentPlanet.tilt : value.toFixed(2);
+          elTiltDetail.innerHTML = formattedValue;
+        }
+      );
+
+      const elGravityDetail = elPlanet.querySelector('[data-detail="gravity"]');
+      animate.fromTo(
+        {
+          from: +prevPlanet.gravity,
+          to: +currentPlanet.gravity
+        },
+        value => {
+          const formattedValue = isNaN(value) ? currentPlanet.gravity : value.toFixed(1);
+          elGravityDetail.innerHTML = formattedValue;
+        }
+      );
+    }
+
+    function selectPlanetByIndex(i) {
+      currentPlanetIndex = i;
+      elApp.style.setProperty('--active', i);
+      selectPlanet(planetKeys[i]);
+    }
+
+
+    function animate(duration, fn) {
+      const start = performance.now();
+      const ticks = Math.ceil(duration / 16.666667);
+      let progress = 0; // between 0 and 1, +/-
+
+      function tick(now) {
+        if (progress >= 1) {
+          fn(1);
+          return;
+        }
+
+        const elapsed = now - start;
+        progress = elapsed / duration;
+
+        // callback
+        fn(progress); // number between 0 and 1
+
+        requestAnimationFrame(tick); // every 16.6666667 ms
+      }
+
+      tick(start);
+    }
+
+    function easing(progress) {
+      return (1 - Math.cos(progress * Math.PI)) / 2;
+    }
+
+    const animationDefaults = {
+      duration: 1000,
+      easing };
+
+
+    animate.fromTo = ({
+      from,
+      to,
+      easing,
+      duration },
+    fn) => {
+      easing = easing || animationDefaults.easing;
+      duration = duration || animationDefaults.duration;
+
+      const delta = +to - +from;
+
+      return animate(duration, progress => fn(from + easing(progress) * delta));
+    };
+
+
+    /* ---------------------------------- */
+
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const elSvgNav = document.querySelector('.planet-nav svg');
+
+    const elTspans = [...document.querySelectorAll('tspan')];;
+    const length = elTspans.length - 1;
+
+    elSvgNav.style.setProperty('--length', length);
+
+    // Getting the length for distributing the text along the path
+    const elNavPath = document.querySelector('#navPath');
+    const elLastTspan = elTspans[length];
+    const navPathLength = elNavPath.getTotalLength() - elLastTspan.getComputedTextLength();
+
+    elTspans.forEach((tspan, i) => {
+      let percent = i / length;
+
+      tspan.setAttribute('x', percent * navPathLength);
+      tspan.setAttributeNS(svgNS, 'x', percent * navPathLength);
+
+      tspan.addEventListener('click', e => {
+        e.preventDefault();
+        selectPlanetByIndex(i);
+      });
+
+    });
+//# sourceURL=pen.js
+    </script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="{% static 'core/js/ai_canvas.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script id="rendered-js">
+      $('.thumbnail').on('click', function () {
+      var clicked = $(this);
+      var newSelection = clicked.data('big');
+      var $img = $('.primary').css("background-image", "url(" + newSelection + ")");
+      clicked.parent().find('.thumbnail').removeClass('selected');
+      clicked.addClass('selected');
+      $('.primary').empty().append($img.hide().fadeIn('slow'));
+      });
+      //# sourceURL=pen.js
+        </script>
+
+
+    <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-44fe83e49b63affec96918c9af88c0d80b209a862cf87ac46bc933074b8c557d.js"></script>
+    <script>
+      function addToCart(productId, productPrice) {
+          
+          /* while (key != productId) {
+              var cookie = document.cookie.split('=');
+              var key = cookie[0];
+          } */
+          var cookie = document.cookie.split('=');
+          var key = cookie[0];
+          var value = cookie[1];
+          
+          if (value) {
+              var count = JSON.parse(value)['count'];
+              console.log(count);
+          }
+          
+          // parseInt(value, deciaml_count) --> it's for change str datatype to deciaml int
+          
+          if (key == productId) {
+              count += 1;
+          } else {
+              count = 1;
+          }
+          // console.log(value);
+      
+          var itemValue = {'price':productPrice, 'count':count};
+          console.log(typeof itemValue);
+
+          var expiresDate = new Date();
+          expiresDate.setDate(expiresDate.getDate() + 7); // expire date is every 7 days
+          var expiresString = "expires=" + expiresDate.toUTCString();
+          
+          document.cookie = productId + "=" + JSON.stringify(itemValue) + "; " + expiresString + "; path=/";
+      }
+  </script>
+</body>
+</html>

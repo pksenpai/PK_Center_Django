@@ -1,0 +1,26 @@
+[  
+    {    
+        "model": "sellers.Seller",
+        "pk": 1,    
+        "fields": {      
+            "name": "SoSShop",
+            "user": 1
+        }  
+    },
+    {    
+        "model": "sellers.Seller",
+        "pk": 2,    
+        "fields": {      
+            "name": "masazone",
+            "user": 2
+        }
+    },
+    {    
+        "model": "sellers.Seller",
+        "pk": 3,    
+        "fields": {      
+            "name": "mmmmmmmmm123",
+            "user": 3
+        }
+    }
+]

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block header_setting %}
+  <link href="{% static 'core/css/ai_canvas.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}PK Center | Email{% endblock %}
+
+{% block body %}
+  <main>
+    <div id="particles-js">
+      <canvas class="particles-js-canvas-el" width="10" height="10" style="width: 10%; height: 10%;"></canvas>
+    </div>
+    <section class="hero-section d-flex justify-content-center align-items-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5 col-12 mx-auto">
+            <form class="custom-form login-form" role="form" method="post"> {% csrf_token %}
+              <h2 class="hero-title text-center text-info mb-4 pb-2"> Email </h2>
+                <div class="form-floating mb-4 p-0">
+                  <input type="email" name="email" id="email" class="form-control" placeholder="Email" required="">
+
+                  <label for="email">Email</label>
+                </div>
+
+                <div class="row justify-content-center align-items-center">
+                  <div class="col-lg-5 col-12 ps-5">
+                  <button type="submit" class="form-control"> Send Code </button>
+                </div>
+
+                <div class="col-lg-5 col-12">
+                  <a href="{% url "users:login" %}" class="btn custom-btn custom-border-btn"> back </a>
+                </div>
+              </div>
+
+            </form>
+                
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  {% endblock %}
+  ai_canvas
+{% block js %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="{% static 'items/js/ai_canvas_white.js' %}"></script>
+{% endblock %}

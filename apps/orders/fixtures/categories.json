@@ -1,0 +1,24 @@
+[  
+    {    
+        "model": "core.category",
+        "pk": 1,    
+        "fields": {
+            "name": "Car"
+        }
+    },
+    {    
+        "model": "core.category",
+        "pk": 2,    
+        "fields": {
+            "name": "Tech"
+        }
+    },
+    {    
+        "model": "core.category",
+        "pk": 3,    
+        "fields": {
+            "name": "MiniTech"
+        }
+    }
+]
+

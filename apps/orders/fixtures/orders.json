@@ -1,0 +1,42 @@
+[
+    {
+        "model": "orders.Order",
+        "pk": 1,
+        "fields": {
+            "status": "In Card",
+            "created_at": "2023-02-01",
+            "updated_at": "2023-01-22",
+            "receiving_date": "2023-03-23",
+            "user": 1,
+            "count":[1,2],
+            "item": [1,2],
+            "address": 3
+        }
+    },
+    {
+        "model": "orders.Order",
+        "pk": 2,
+        "fields": {
+            "status": "In Process",
+            "created_at": "2023-01-22",
+            "updated_at": "2023-01-22",
+            "receiving_date": "2023-02-03",
+            "user": 1,
+            "item": [1,2],
+            "address": 2
+        }
+    },
+    {
+        "model": "orders.Order",
+        "pk": 3,
+        "fields": {
+            "status": "Done",
+            "created_at": "2021-02-23",
+            "updated_at": "2021-02-23",
+            "receiving_date": "2022-10-15",
+            "user": 2,
+            "item": [1,2],
+            "address": 3
+        }
+    }
+]

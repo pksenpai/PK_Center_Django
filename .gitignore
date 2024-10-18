@@ -5,6 +5,13 @@
 __pycache__
 db.sqlite3
 media
+*_initial*
+<<<<<<< HEAD
+=======
+*/migrations
+>>>>>>> bugfix
+*000*
+*00*
 
 # Backup files # 
 *.bak 
@@ -137,3 +144,7 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# Extra Tool Files
+erd.dot
+
